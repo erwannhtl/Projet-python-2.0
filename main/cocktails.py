@@ -1,56 +1,119 @@
+import pandas as pd
 import json
-import os
+import bs4
+import re 
 
-# Imprimer le chemin absolu du fichier JSON
-json_file_path = os.path.abspath('data.json')
-print(f"Chemin absolu du fichier JSON : {json_file_path}")
+# Charger le fichier JSON
+with open('test.json', 'r', encoding='utf-8') as file:
+    json = json.load(file)
 
-# Charger les données JSON depuis le fichier
-with open(json_file_path, 'r') as file:
-    data = json.load(file)
+def suppressiondelurl(types):
+    #certains ingrédients sont accompagnés d'un url que l'on souhaite supprimer dans la chaine de caractères
+    if types.startswith('<p>de <a href=') or types.startswith('<p><a href='):
+        
+        # Extraire la partie entre les balises '<a>' et '</a>'
+        partie_extraite = types.split('">')[1].split('</a>')[0]
+        
+        # Remplacer les éventuels <p> dans la partie extraite
+        types = partie_extraite.replace('<p>', '').replace('</p>', '')
+    return types
+                        
+def separation_quantite_ingr(types) :
+    #parfois certains ingrédients n'ont pas de quantité associée mais son de la forme : 2 tranches de citron
+    #cette fonction sert à séparer le '2 tranches' (quantité) et le 'citron' (ingrédient) en coupant en 2 la chaine de caractère
+    # Supprimer le '<p>' de la partie extraite
+    quantite = ""
+    resultat = types.split(" d’", 1)
+    if len(resultat)!=2:
+        resultat = types.split(" d'", 1)
+    if len(resultat)!=2:
+        resultat = types.split(" de", 1)        
+    if len(resultat)==2: 
+        resultat[0] = resultat[0].replace('<p>', '')
+        resultat[1] = resultat[1].replace('</p>\n', '')
+        types = resultat[1]
+    # Placer cette partie dans le deuxième élément de la sous-liste
+        quantite = resultat[0]
 
-from bs4 import BeautifulSoup
+    # Enlever cette partie de la liste des ingrédients
+    return (types, quantite)
+        
+def nettoyage(num_cocktail):
+    liste=[]
+    for result in json.get('results', []):  #on rentre dans la catégorie "result"    
+        for hit in result.get('hits', []):  #on rentre dans la catégorie "hit" (chaque hit correspond à un cocktail)         
+            ingredients = []
+            quantites = []
+            cocktail = []
 
-# Initialiser le dictionnaire
-cocktails_dict = {}
+            if 'ingredients' in hit: #on cheche s'il y a des ingrédients du type 'ingredients' dans chaque cocktail
+                for ingredient in hit['ingredients']:
+                    
+                    label = ingredient['label'] #certains ingrédients sont sous forme de label
+                    ingr = ingredient['ingredient'] #d'autres sous forme d'ingredient
+                    quantite = ingredient['quantity'] #quantité associée à chaque label/ingredient
+                    
+                    label = suppressiondelurl(label)
+                    ingr = suppressiondelurl(ingr)
+                    #quantite = suppressiondelurl(quantite)
 
-# Itérer sur les cocktails,
-#boucle for qui itère au sein du premier élément du dictionnairesur chaque élément de la liste hits et utilise la variable hit pour représenter chaque élément successif à chaque itération.
-for hit in data['results'][0]['hits']:
-    cocktail_name = hit['post_title']
-    cocktail_recipe = hit['content']
-    cocktail_url = hit['url']
-    cocktail_ingredients = []
+                    if label != "" :
+                        label = label.replace("</span>", "")
+                        label2 = label
+                        if label.startswith('<p>') and any(char.isdigit() for char in label.split('<p>', 1)[-1]):
+                            label2 = separation_quantite_ingr(label)[0]
+                            quantite = separation_quantite_ingr(label)[1]
+                        ingredients.append(label2)
+                        quantites.append(quantite)
 
-    # Vérifier si la clé 'ingredients' est présente
-    if 'ingredients' in hit:
-        # Itérer sur les ingrédients
-        for ingredient in hit['ingredients']:
-            if ingredient['type'] == 'ingredient' and ingredient['ingredient']:
-                # Utiliser BeautifulSoup pour extraire le texte de l'élément HTML
-                ingredient_text = BeautifulSoup(ingredient['ingredient'], 'html.parser').get_text()
-                
-                # Ajouter les ingrédients non vides
-                cocktail_ingredients.append(ingredient_text)
+                  
+                    if ingr != "" :
+                        ingr = ingr.replace("</span>", "")
+                        ingr2 = ingr
+                        
+                        if ingr.startswith('<p>') and any(char.isdigit() for char in ingr.split('<p>', 1)[-1]):
+                            ingr2 = separation_quantite_ingr(ingr)[0]
+                            quantite = separation_quantite_ingr(ingr)[1]
 
-    # Ajouter les informations au dictionnaire
-    cocktails_dict[cocktail_name] = {
-        'recipe': cocktail_recipe,
-        'url': cocktail_url,
-        'ingredients': cocktail_ingredients
-    }
+                        ingredients.append(ingr2)
+                        quantites.append(quantite)
+                    #print(ingredients)
 
-# Afficher le dictionnaire
-#print(cocktails_dict)
+                    for i in range (len(ingredients)):
+                        element = ingredients[i]
+                        
+                        # Utiliser une expression régulière pour extraire le texte entre > et <
+                    
+                        if element.startswith('de '):
+                            element = element[3:]
+                            ingredients[i]=element
+                        elif element.startswith('de'):
+                            element = element[2:]
+                            ingredients[i]=element
+                        elif element.startswith("d'"):
+                            element = element[2:]
+                            ingredients[i]=element
+                        elif element.startswith("<p>d’"):
+                            element = element[5:]
+                        elif element.startswith('<p>de '):
+                            element = element[6:]
+                            ingredients[i]=element
+                        elif element.startswith('<p>'):
+                            element = element[3:]
+                            ingredients[i]=element
+                        if element.endswith('</p>\n'):
+                            element = element[:-5]
+                            ingredients[i]=element
+                        
+                        
+                cocktail.append(ingredients)
+                cocktail.append(quantites)
+                liste.append(cocktail)
 
-# Afficher les deux premières lignes du dictionnaire
-for index, (cocktail_name, cocktail_info) in enumerate(cocktails_dict.items()):
-    print(f"{index + 1}. {cocktail_name}:")
-    print(f"   Recette : {cocktail_info['recipe']}")
-    print(f"   URL : {cocktail_info['url']}")
-    print(f"   Ingrédients : {cocktail_info['ingredients']}")
-    print("\n")
+    # Afficher le résultat
+    return (liste[num_cocktail])
+for i in range (120,130):
+    print(nettoyage(i))
 
-    # S'arrêter après deux itérations
-    if index == 1:
-        break
+
+
