@@ -2,6 +2,7 @@ import pandas as pd
 import json
 import bs4
 import re 
+from fuzzywuzzy import fuzz  #potentiellement à installer
 
 # Charger le fichier JSON
 with open('test.json', 'r', encoding='utf-8') as file:
@@ -19,7 +20,7 @@ def suppressiondelurl(types):
     return types
                         
 def separation_quantite_ingr(types) :
-    #parfois certains ingrédients n'ont pas de quantité associée mais son de la forme : 2 tranches de citron
+    #parfois certains ingrédients n'ont pas de quantité associée mais sont de la forme : 2 tranches de citron
     #cette fonction sert à séparer le '2 tranches' (quantité) et le 'citron' (ingrédient) en coupant en 2 la chaine de caractère
     # Supprimer le '<p>' de la partie extraite
     quantite = ""
@@ -115,5 +116,27 @@ def nettoyage(num_cocktail):
 for i in range (120,130):
     print(nettoyage(i))
 
+
+# l : ici une liste, à modifier pour qu'elle parcoure les alcools de toute la base pour les identifier
+
+liste_alcool = ['gin', 'vodka', 'rhum','liqueur','tequila','vin','whisky','vermouth','sirop','crème', 'amaretto', 'bière', 'cidre', 'cognac', 'limoncello', 'eau-de-vie','mezcal','acerum','brandy'] 
+#parcourir la base à la mano pour lister tous les alcools utilisés sans leurs noms propres
+
+def identification_alcool(liste_alcool,l):
+    # afin d'identifier que 'Gin, Palaiseau' = 'Gin, New York' = 'Gin'
+    #nous renvoie une liste avec soit le nom de l'alcool comme dans liste_alcool (donc sans le nom propre), soit erreur
+    n = len(l)
+    m = len(liste_alcool)
+    for j in range(m):
+        mot = liste_alcool[j]
+        for i in range(n):
+            mot_test = l[i]
+            ratio = fuzz.token_set_ratio(mot,mot_test)
+            if ratio > 95:
+                #distance à modifier selon le résultat voulu
+                l[i] = mot
+            else : 
+                l[i] = erreur
+    return l 
 
 
