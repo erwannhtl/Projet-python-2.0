@@ -1,3 +1,8 @@
+import os
+
+os.chdir('main')
+
+
 import pandas as pd
 import json
 import bs4
@@ -113,7 +118,7 @@ def nettoyage(num_cocktail):
 
     # Afficher le résultat
     return (liste[num_cocktail])
-for i in range (120,130):
+for i in range (380,390):
     print(nettoyage(i))
 
 
