@@ -150,7 +150,7 @@ def identification_alcool(l):
 #print(identification_alcool(l))
 
 
-def simplification_ingerdients():
+def simplification_ingredients():
     '''Nous renvoie une liste de liste d'ingrédients pour chaque cocktail, avec les alcools simplifiés selon liste_cocktail'''
     ingredients_nettoyes = []
     for i in range(0,390): #390 = nb de cocktails
@@ -159,5 +159,29 @@ def simplification_ingerdients():
     return ingredients_nettoyes
 
 
-l = simplification_ingerdients()
-print(len(l))
+l = simplification_ingredients()
+#print(l)
+
+#Afin de pouvoir nettoyer la base Ciqual, on va enlever les doublons de cette liste pour avoir une liste plus simple
+
+def ingredients_sans_doublons():
+    '''nous renvoie une liste d'ingrédients unique,sans association aux cocktails'''
+    l = simplification_ingredients()
+    ingredients_uniques = set()
+    for ingr in l :
+        ingredients_uniques.update(ingr)
+    return list(ingredients_uniques)
+
+#print(ingredients_sans_doublons())
+
+
+# Vérifier si tous nos alcools sont bien dans la nouvelle liste d'ingrédients unique
+#for i in liste_alcool:
+    #if i in ingredients_sans_doublons():
+        #print('Le',i,'est présent dans la liste d\'ingrédients.')
+    #else:
+        #print('Le',i,'n\'est pas présent dans la liste d\'ingrédients.')
+
+#print(len(ingredients_sans_doublons()))
+
+
