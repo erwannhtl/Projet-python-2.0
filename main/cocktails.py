@@ -1,6 +1,5 @@
 import os
-
-os.chdir('main')
+#os.chdir('main')
 
 
 import pandas as pd
@@ -154,13 +153,25 @@ def simplification_ingredients():
     '''Nous renvoie une liste de liste d'ingrédients pour chaque cocktail, avec les alcools simplifiés selon liste_cocktail'''
     ingredients_nettoyes = []
     for i in range(0,390): #390 = nb de cocktails
+        a=[]
         l = nettoyage(i)[0]
-        ingredients_nettoyes.append(identification_alcool(l))
+        a.append(identification_alcool(l))
+        a.append(nettoyage(i)[1])
+        ingredients_nettoyes.append(a)
+
     return ingredients_nettoyes
 
 
 l = simplification_ingredients()
-#print(l)
+
+deuxiemes_elements = [element[1] for element in l]
+
+# Écriture dans un fichier texte
+with open('fichier.txt', 'w') as fichier:
+    for item in deuxiemes_elements:
+        fichier.write(str(item) + '\n')
+
+
 
 #Afin de pouvoir nettoyer la base Ciqual, on va enlever les doublons de cette liste pour avoir une liste plus simple
 
