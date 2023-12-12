@@ -118,16 +118,19 @@ def nettoyage(num_cocktail):
 
     # Afficher le résultat
     return (liste[num_cocktail])
-for i in range (380,390):
+#for i in range (380,390):
     print(nettoyage(i))
 
-
+#print(nettoyage(1))
 # l : ici une liste, à modifier pour qu'elle parcoure les alcools de toute la base pour les identifier
 
 liste_alcool = ['gin', 'vodka', 'rhum','liqueur','tequila','vin','whisky','vermouth','sirop','crème', 'amaretto', 'bière', 'cidre', 'cognac', 'limoncello', 'eau-de-vie','mezcal','acerum','brandy'] 
 #parcourir la base à la mano pour lister tous les alcools utilisés sans leurs noms propres
 
-def identification_alcool(liste_alcool,l):
+#l = nettoyage(1)[0]
+#print(l)
+
+def identification_alcool(l):
     # afin d'identifier que 'Gin, Palaiseau' = 'Gin, New York' = 'Gin'
     #nous renvoie une liste avec soit le nom de l'alcool comme dans liste_alcool (donc sans le nom propre), soit erreur
     n = len(l)
@@ -141,7 +144,20 @@ def identification_alcool(liste_alcool,l):
                 #distance à modifier selon le résultat voulu
                 l[i] = mot
             else : 
-                l[i] = erreur
+                l[i] = mot_test
     return l 
 
+#print(identification_alcool(l))
 
+
+def simplification_ingerdients():
+    '''Nous renvoie une liste de liste d'ingrédients pour chaque cocktail, avec les alcools simplifiés selon liste_cocktail'''
+    ingredients_nettoyes = []
+    for i in range(0,390): #390 = nb de cocktails
+        l = nettoyage(i)[0]
+        ingredients_nettoyes.append(identification_alcool(l))
+    return ingredients_nettoyes
+
+
+l = simplification_ingerdients()
+print(len(l))
