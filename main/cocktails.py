@@ -1,7 +1,7 @@
 import os
 #os.chdir('main')
 
-print('hello')
+print('hello world')
 
 
 
