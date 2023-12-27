@@ -4,13 +4,31 @@ import pandas as pd
 
 #Initialisation des variables globales
 source = "/home/onyxia/work/Projet-python-2.0/main/1ou2cocktails - initial.xlsx"
+#ce fichier contient les données brutes extraites du datascrapping du site 1ou2cocktails
+
 travail = "/home/onyxia/work/Projet-python-2.0/main/travail.xlsx"
+#ce fichier va etre notre fichier de travail
+
 feuille="Maj"
+
 ref_qte_label = "/home/onyxia/work/Projet-python-2.0/main/Cocktails - Ref - Qté.xlsx"
+#dans ce fichier, les quantités des labels ont été uniformisées : par exemple, ''½ c. à thé de vanille'' est devenu	''0,5''	''c. à thé''
+#cela nous permet d'avoir un format d'unité classique pour tous les ingrédients
+
+
 ref_ingredient = "/home/onyxia/work/Projet-python-2.0/main/Cocktails - Ref - Ingrédients.xlsx"
+#pour obtenir cette table de bijection entre la table ciqual contenant les apports nutritifs et les ingrédients de nos cocktails, nous avons 
+
 ref_unite_gr = "/home/onyxia/work/Projet-python-2.0/main/Cocktails - Ref - Unité.xlsx"
 table_ciqual="/home/onyxia/work/Projet-python-2.0/main/Table Ciqual.xls"
 OZ_GR = 28.3495
+#[nom feuille et colonne cocktail , nom colonne mesure table ciqual]
+mesure = [ 
+['kcal',        'Energie, Règlement UE N° 1169/2011 (kcal/100 g)'   ] , 
+['proteine',    'Protéines, N x facteur de Jones (g/100 g)'         ] , 
+['glucides',    'Glucides (g/100 g)'                                ],
+['calcium',     'Calcium (mg/100 g)'                                ],
+ ] 
 
 #Copie un fichier source vers un fichier cible
 def copie_fichier(source,cible):
@@ -21,7 +39,8 @@ def copie_fichier(source,cible):
         print(f"Erreur lors de la copie du fichier : {e}")
 
 #Enregistre le fichier Excel de travail à partir d'un data frame        
-def enregistre_travail(df):
+def enregistre_travail(df,feuille):
+
     with pd.ExcelWriter(travail, engine='openpyxl', mode='a', if_sheet_exists='replace') as writer:
         df.to_excel(writer, sheet_name=feuille, index=False)
 
@@ -35,7 +54,53 @@ def repete_valeur_precedente(df,nom_colonne):
         else:
             prev_value = row[nom_colonne]  
 
+def agrege_ciqual(df_cocktail,colonne_cocktail,colonne_ciqual):
+    df_ref=pd.read_excel(table_ciqual)
+    #les données numériques du fichier ciqual sont au format texte
+    df_cocktail['chaine'] = df_cocktail['aliment'].apply(
+        lambda ref: next((champ for zone_rech, champ in zip(df_ref['alim_nom_fr'], df_ref[colonne_ciqual]) if isinstance(ref, str) and isinstance(zone_rech, str) and zone_rech in ref), None)
+    )
+    col1 = colonne_cocktail + '_100gr'
+    #Conversion des kcal du format str au format float
+    df_cocktail[col1]  = df_cocktail['chaine'].str.replace(',', '.').astype(float)
+    #Suppression de la colonne chaine 
+    df_cocktail = df_cocktail.drop('chaine', axis=1)
+    
+    
+    #Nb kcal pour la quantité d'ingrédient
+    col2 = 'quantity_' + colonne_cocktail
+    df_cocktail[col2] =  round((df_cocktail[col1] * df_cocktail['quantity_gr'] / 100),2)
 
+    
+    feuille = 'Maj'
+    #Enregistrement de la feuille dans le fichier Excel de travail
+    enregistre_travail(df_cocktail,feuille)
+    
+    df1 = pd.read_excel(travail, sheet_name=feuille)
+    df_cocktail = df1[['objectID', 'post_title', 'url', col2]]
+    feuille = colonne_cocktail + '_cocktail'
+    
+    
+    #Enregistrement de la feuille dans le fichier Excel de travail
+    enregistre_travail(df_cocktail,feuille)
+
+    df_cocktail = pd.read_excel(travail, sheet_name=feuille)
+
+    col1 = 'quantity_' + colonne_cocktail + '_total'
+    col2 = 'quantity_' + colonne_cocktail
+    
+    df_cocktail[col1] = None
+    # Calcul de la somme de quantity_kcal par objectID
+    df_cocktail[col1] = df_cocktail.groupby('objectID')[col2].transform('sum')
+    
+    df_cocktail = df_cocktail.drop(col2, axis=1)
+    
+    ## Suppression des lignes dupliquées pour ne conserver que la première ligne de chaque objectID
+    df_cocktail = df_cocktail.drop_duplicates(subset='objectID', keep='first')
+    
+    #Enregistrement de la feuille dans le fichier Excel de travail
+    enregistre_travail(df_cocktail,feuille)
+    
             
 #============ DEBUT        
 
@@ -46,11 +111,8 @@ copie_fichier(source,travail)
 df1 = pd.read_excel(travail)
 df2 = df1[['objectID', 'post_title', 'url', 'ingredient', 'label', 'quantity', 'type', 'section']]
 
-
-
-
 #Enregistrement de la feuille dans le fichier Excel de travail
-enregistre_travail(df2)
+enregistre_travail(df2,feuille)
 
 #Suppression des lignes de la feuille Maj lorsque ingredient,label,quantity,type sont vides
 df = pd.read_excel(travail, sheet_name="Maj")
@@ -70,7 +132,7 @@ for colonne_a_repeter in liste_colonne_a_repeter:
     repete_valeur_precedente(df,colonne_a_repeter)
 
 #Enregistrement de la feuille dans le fichier Excel de travail
-enregistre_travail(df)
+enregistre_travail(df,feuille)
    
 df_cocktail=pd.read_excel(travail, sheet_name="Maj")
 df_ref=pd.read_excel(ref_qte_label, sheet_name="Ref")
@@ -106,21 +168,13 @@ df_cocktail['label_unite_gr'] = df_cocktail['label_unite'].apply(
     lambda ref: next((qte for zone_rech, qte in zip(df_ref['Unité'], df_ref['grammes']) if isinstance(ref, str) and isinstance(zone_rech, str) and zone_rech in ref), None)
 )
 
-#Alimentation des colonnes aliment,kcal
+#Alimentation de la colonne aliment
 df_ref=pd.read_excel(ref_ingredient)
 df_cocktail['aliment'] = df_cocktail['ingredient'].apply(
     lambda ref: next((champ for zone_rech, champ in zip(df_ref['Ingrédient'], df_ref['Aliment']) if isinstance(ref, str) and isinstance(zone_rech, str) and zone_rech in ref), None)
 )
 
-df_ref=pd.read_excel(table_ciqual)
-#les kcal du fichier ciqual sont au format texte
-df_cocktail['chaine'] = df_cocktail['aliment'].apply(
-    lambda ref: next((champ for zone_rech, champ in zip(df_ref['alim_nom_fr'], df_ref['Energie, Règlement UE N° 1169/2011 (kcal/100 g)']) if isinstance(ref, str) and isinstance(zone_rech, str) and zone_rech in ref), None)
-)
-#Conversion des kcal du format str au format float
-df_cocktail['kcal_100gr']  = df_cocktail['chaine'].str.replace(',', '.').astype(float)
-#Suppression de la colonne chaine 
-df_cocktail = df_cocktail.drop('chaine', axis=1)
+
 
 #Conversion de la quantité d'oz en grammes
 df_cocktail['quantity_gr'] = round(df_cocktail['quantity'] * OZ_GR,2)
@@ -133,33 +187,12 @@ df_cocktail['quantity_gr'].fillna(df_cocktail['label_qte_gr'], inplace=True)
 
 #ici
 #Division de la quantité en grammes par le nombre de part(s) pour avoir une quantité par part
-df_cocktail['quantity_gr'] = df_cocktail['quantity_gr'] / df_cocktail['section_qte']         
+df_cocktail['quantity_gr'] = df_cocktail['quantity_gr'] / df_cocktail['section_qte']  
 
-#Nb kcal pour la quantité d'ingrédient
-df_cocktail['quantity_kcal'] =  round((df_cocktail['kcal_100gr'] * df_cocktail['quantity_gr'] / 100),2)
-
-#Enregistrement de la feuille dans le fichier Excel de travail
-enregistre_travail(df_cocktail)
-
-df1 = pd.read_excel(travail, sheet_name="Maj")
-df_cocktail = df1[['objectID', 'post_title', 'url', 'quantity_kcal']]
-feuille="Kcal_cocktail"
-#Enregistrement de la feuille dans le fichier Excel de travail
-enregistre_travail(df_cocktail)
-
-df_cocktail = pd.read_excel(travail, sheet_name="Kcal_cocktail")
-df_cocktail['quantity_kcal_total'] = None
-# Calcul de la somme de quantity_kcal par objectID
-df_cocktail['quantity_kcal_total'] = df_cocktail.groupby('objectID')['quantity_kcal'].transform('sum')
-
-df_cocktail = df_cocktail.drop('quantity_kcal', axis=1)
-
-## Suppression des lignes dupliquées pour ne conserver que la première ligne de chaque objectID
-df_cocktail = df_cocktail.drop_duplicates(subset='objectID', keep='first')
-
-#Enregistrement de la feuille dans le fichier Excel de travail
-enregistre_travail(df_cocktail)
-
+#Génère une feuille par mesure avec le total mesure par cocktail
+for indice_ligne, ligne in enumerate(mesure):
+    print(f"Ligne {indice_ligne}: {ligne[0]} - {ligne[1]}") 
+    
 
 # Charger le fichier Excel
 print(df_cocktail.head())
@@ -169,7 +202,7 @@ print(type_nombre)
 
 
 # Définissez le nom et le chemin du fichier CSV
-nom_fichier = 'mon_dataframe.csv'
+nom_fichier = 'mon_dataframe2.csv'
 
 # Ouvrez le fichier CSV
 with open(nom_fichier, 'w') as f:
