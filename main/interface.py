@@ -58,6 +58,14 @@ def enlever_boutons():
     frame_grossesse.pack_forget()
     frame_allaitement.pack_forget()
 
+liste = []
+def ajouter_liste(event):
+    lst_indice = choix_age.curselection()
+    for i in lst_indice:
+        age = age_possible[i]
+        liste.append(age)
+
+
 # Section "Sexe"
 frame_sexe = Frame(fenetre_profil)
 label = Label(frame_sexe, text="Sexe", font=('Helvetica', 14, 'bold'))
@@ -70,28 +78,27 @@ bouton_femme.pack()
 frame_sexe.pack(side = TOP)
 
 # Section "Tranche d'âge"
+
 frame_age = Frame(fenetre_profil)
 label = Label(frame_age, text="Age", font=('Helvetica', 14, 'bold'))
-label.pack()
-age = StringVar()
-bouton_18 = Radiobutton(frame_age, text="< 18 ans", variable=age, value="< 18 ans")
-bouton_1829 = Radiobutton(frame_age, text="18-29 ans", variable=age, value="18-29 ans")
-bouton_3039 = Radiobutton(frame_age, text="30-39 ans", variable=age, value="30-39 ans")
-bouton_4049 = Radiobutton(frame_age, text="40-49 ans", variable=age, value="40-49 ans")
-bouton_5059 = Radiobutton(frame_age, text="50-59 ans", variable=age, value="50-59 ans")
-bouton_6069 = Radiobutton(frame_age, text="60-69 ans", variable=age, value="60-69 ans")
-bouton_7079 = Radiobutton(frame_age, text="70-79 ans", variable=age, value="70-79 ans")
-bouton_80 = Radiobutton(frame_age, text="> 80 ans", variable=age, value="> 80 ans")
+label.pack(side=TOP)
 
-bouton_18.pack()
-bouton_1829.pack()
-bouton_3039.pack()
-bouton_4049.pack()
-bouton_5059.pack()
-bouton_6069.pack()
-bouton_7079.pack()
-bouton_80.pack()
-frame_age.pack(side = TOP)
+scrollbar_age = Scrollbar(frame_age, orient='vertical')
+
+choix_age = Listbox(frame_age, selectmode = 'single',yscrollcommand=scrollbar_age.set, exportselection=0)
+scrollbar_age.config(command=choix_age.yview)
+
+age_possible = ["10 ans","11 ans","12 ans","13 ans","14 ans","15 ans","16 ans","17 ans","18-29 ans","30-39 ans","40-49 ans","50-59 ans","60-69 ans","70-79 ans","> 80 ans"]
+
+for i in range(len(age_possible)):
+    age = age_possible[i]
+    choix_age.insert(i, age)
+
+scrollbar_age.pack(side = RIGHT, fill=Y)
+choix_age.pack(side = LEFT, fill = BOTH, expand = True)
+choix_age.bind("<<ListboxSelect>>", ajouter_liste)
+
+frame_age.pack(side=TOP)
 
 # Section "Activité physique"
 frame_physique = Frame(fenetre_profil)
@@ -111,7 +118,7 @@ frame_physique.pack(side = TOP)
 
 #Section "Grossesse"
 frame_grossesse = Frame(fenetre_profil)
-label = Label(frame_grossesse, text="Grossesse", font=('Helvetica', 14, 'bold'))
+label = Label(frame_grossesse, text="Grossesse & Allaitement", font=('Helvetica', 14, 'bold'))
 label.pack(side=TOP)
 label = Label(frame_grossesse, text='Etes-vous enceinte ou non ?', font=('Helvetica', 8))
 label.pack(side=TOP)
@@ -122,11 +129,8 @@ bouton_pasenceinte = Radiobutton(frame_grossesse, text="Je ne suis pas enceinte"
 bouton_enceinte.pack()
 bouton_pasenceinte.pack()
 
-
 #Section "Allaitement"
 frame_allaitement = Frame(fenetre_profil)
-label = Label(frame_allaitement, text="Allaitement", font=('Helvetica', 14, 'bold'))
-label.pack(side=TOP)
 label = Label(frame_allaitement, text='Allaitez-vous ou non ?', font=('Helvetica', 8))
 label.pack(side=TOP)
 allaitement = StringVar()
@@ -140,11 +144,12 @@ bouton_allaitement6.pack()
 fenetre_profil.mainloop()
 
 #Récupération des données
-dic_profil = {"age" : age.get(), "sexe" : sexe.get(), 'activité physique': physique.get(), "grossesse" : [], "allaitement" :[]}
+liste = list(set(liste))
+dic_profil = {"age" : liste, "sexe" : sexe.get(), 'activité physique': physique.get(), "spécificités" : []}
 if grossesse.get() != "None":
-    dic_profil["grossesse"].append(grossesse.get())
+    dic_profil["spécificités"].append(grossesse.get())
 if allaitement.get() != "None":
-    dic_profil["allaitement"].append(allaitement.get())
+    dic_profil["spécificités"].append(allaitement.get())
 
 
 print(dic_profil)
@@ -160,8 +165,8 @@ liste_aliments = maj_travail['aliment'].tolist()
 #print(liste_aliments)
 #print(len(liste_aliments))
 liste_aliments_sans_doublons = list(set(liste_aliments)) #enlève les doublons
-print(liste_aliments_sans_doublons)
-print(len(liste_aliments_sans_doublons))
+#print(liste_aliments_sans_doublons)
+#print(len(liste_aliments_sans_doublons))
 
 #séparer alcools et ingrédients - Même liste que dans le fichier cocktail.py
 base_alcool = ['Gin', 'Vodka', 'Rhum','Liqueur','Tequila','Vin','Whisky','Vermouth','Crème', 'Amaretto', 'Bière', 'Cidre', 'Cognac', 'Limoncello', 'Eau-de-vie','Mezcal','Acerum','Brandy'] 
