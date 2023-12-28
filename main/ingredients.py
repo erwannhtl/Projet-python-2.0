@@ -16,7 +16,7 @@ ref_qte_label = "/home/onyxia/work/Projet-python-2.0/main/Cocktails - Ref - Qté
 #cela nous permet d'avoir un format d'unité classique pour tous les ingrédients
 
 
-ref_ingredient = "/home/onyxia/work/Projet-python-2.0/main/Cocktails - Ref - Ingrédients complets.xlsx"
+ref_ingredient = "/home/onyxia/work/Projet-python-2.0/main/etape5.xlsx"
 #pour obtenir cette table de bijection entre la table ciqual contenant les apports nutritifs et les ingrédients de nos cocktails, nous avons 
 
 ref_unite_gr = "/home/onyxia/work/Projet-python-2.0/main/Cocktails - Ref - Unité.xlsx"
