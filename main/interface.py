@@ -120,32 +120,28 @@ frame_physique.pack(side = TOP)
 frame_grossesse = Frame(fenetre_profil)
 label = Label(frame_grossesse, text="Grossesse & Allaitement", font=('Helvetica', 14, 'bold'))
 label.pack(side=TOP)
-label = Label(frame_grossesse, text='Etes-vous enceinte ou non ?', font=('Helvetica', 8))
+label = Label(frame_grossesse, text='Si vous êtes enceinte, veuillez cochez la case correspondante', font=('Helvetica', 8))
 label.pack(side=TOP)
 grossesse = StringVar()
 grossesse.set("None")
-bouton_enceinte = Radiobutton(frame_grossesse, text="Je suis enceinte", variable=grossesse, value="Je suis enceinte")
-bouton_pasenceinte = Radiobutton(frame_grossesse, text="Je ne suis pas enceinte", variable=grossesse, value="Je ne suis pas enceinte")
+bouton_enceinte = Checkbutton(frame_grossesse, text="Je suis enceinte", variable=grossesse, onvalue="Je suis enceinte", offvalue='None')
 bouton_enceinte.pack()
-bouton_pasenceinte.pack()
 
 #Section "Allaitement"
 frame_allaitement = Frame(fenetre_profil)
-label = Label(frame_allaitement, text='Allaitez-vous ou non ?', font=('Helvetica', 8))
+label = Label(frame_allaitement, text='Si vous allaitez, veuillez cochez la case correspondante', font=('Helvetica', 8))
 label.pack(side=TOP)
 allaitement = StringVar()
 allaitement.set("None")
-bouton_allaitement06 = Radiobutton(frame_allaitement, text="J'allaite", variable=allaitement, value="J'allaite")
-bouton_allaitement6 = Radiobutton(frame_allaitement, text="Je n'allaite pas", variable=allaitement, value="Je n'allaite pas")
+bouton_allaitement06 = Checkbutton(frame_allaitement, text="J'allaite", variable=allaitement, onvalue="J'allaite", offvalue='None')
 bouton_allaitement06.pack()
-bouton_allaitement6.pack()
 
 
 fenetre_profil.mainloop()
 
 #Récupération des données
 liste = list(set(liste))
-dic_profil = {"age" : liste, "sexe" : sexe.get(), 'activité physique': physique.get(), "spécificités" : []}
+dic_profil = {"age" : liste[0], "sexe" : sexe.get(), 'activité physique': physique.get(), "spécificités" : []}
 if grossesse.get() != "None":
     dic_profil["spécificités"].append(grossesse.get())
 if allaitement.get() != "None":
