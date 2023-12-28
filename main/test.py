@@ -53,7 +53,7 @@ def faire_correspondance(fichier_excel1, fichier_excel2, colonne1, colonne2, sor
 
 # Exemple d'utilisation
 # Vous pouvez spécifier un mot clé si nécessaire, par exemple 'sirop' ou le laisser à None pour utiliser le premier mot.
-nombre_associes = faire_correspondance("/home/onyxia/work/Projet-python-2.0/main/test11.xlsx", "/home/onyxia/work/Projet-python-2.0/main/tes22.xlsx", "Ingrédients1", "Ingrédients2", "/home/onyxia/work/Projet-python-2.0/main/test3.xlsx", score_minimum=70)
+nombre_associes = faire_correspondance("/home/onyxia/work/Projet-python-2.0/main/testfusionnes.xlsx", "/home/onyxia/work/Projet-python-2.0/main/tes22.xlsx", "Ingrédients1", "Ingrédients2", "/home/onyxia/work/Projet-python-2.0/main/test3.xlsx", score_minimum=70)
 print(f"Nombre d'ingrédients associés avec un score supérieur à {70}: {nombre_associes}")
 
 

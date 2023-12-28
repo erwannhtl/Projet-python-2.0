@@ -16,7 +16,7 @@ ref_qte_label = "/home/onyxia/work/Projet-python-2.0/main/Cocktails - Ref - Qté
 #cela nous permet d'avoir un format d'unité classique pour tous les ingrédients
 
 
-ref_ingredient = "/home/onyxia/work/Projet-python-2.0/main/Cocktails - Ref - Ingrédients.xlsx"
+ref_ingredient = "/home/onyxia/work/Projet-python-2.0/main/Cocktails - Ref - Ingrédients complets.xlsx"
 #pour obtenir cette table de bijection entre la table ciqual contenant les apports nutritifs et les ingrédients de nos cocktails, nous avons 
 
 ref_unite_gr = "/home/onyxia/work/Projet-python-2.0/main/Cocktails - Ref - Unité.xlsx"
@@ -43,6 +43,29 @@ def enregistre_travail(df,feuille):
 
     with pd.ExcelWriter(travail, engine='openpyxl', mode='a', if_sheet_exists='replace') as writer:
         df.to_excel(writer, sheet_name=feuille, index=False)
+
+
+
+
+def sauvegarder_nouveau_fichier_excel(df, chemin_destination, nom_feuille='Feuille1'):
+    """
+    Sauvegarde un DataFrame dans un nouveau fichier Excel.
+
+    :param df: DataFrame à sauvegarder.
+    :param chemin_destination: Chemin complet du nouveau fichier Excel à créer.
+    :param nom_feuille: Nom de la feuille de calcul dans le fichier Excel.
+    """
+    with pd.ExcelWriter(chemin_destination, engine='openpyxl') as writer:
+        df.to_excel(writer, sheet_name=nom_feuille, index=False)
+
+# Créez un DataFrame pour tester
+df_test = pd.DataFrame({'Colonne1': [1, 2, 3], 'Colonne2': ['a', 'b', 'c']})
+
+# Utilisez la fonction pour enregistrer ce DataFrame dans un nouveau fichier Excel
+chemin_destination = '/home/onyxia/work/Projet-python-2.0/main/alex.xlsx'
+sauvegarder_nouveau_fichier_excel(df_test, '/home/onyxia/work/Projet-python-2.0/main/blabla.xlsx', 'MaNouvelleFeuille')
+
+
 
 #Repete la valeur précédente d'une colonne d'un data frame
 def repete_valeur_precedente(df,nom_colonne):  
@@ -74,8 +97,9 @@ def agrege_ciqual(df_cocktail,colonne_cocktail,colonne_ciqual):
     
     feuille = 'Maj'
     #Enregistrement de la feuille dans le fichier Excel de travail
-    enregistre_travail(df_cocktail,feuille)
     
+    enregistre_travail(df_cocktail,feuille)
+        
     df1 = pd.read_excel(travail, sheet_name=feuille)
     df_cocktail = df1[['objectID', 'post_title', 'url', col2]]
     feuille = colonne_cocktail + '_cocktail'
@@ -99,9 +123,24 @@ def agrege_ciqual(df_cocktail,colonne_cocktail,colonne_ciqual):
     df_cocktail = df_cocktail.drop_duplicates(subset='objectID', keep='first')
     
     #Enregistrement de la feuille dans le fichier Excel de travail
+     
     enregistre_travail(df_cocktail,feuille)
-    
-            
+    return df_cocktail
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #============ DEBUT        
 
 #Sauvegarde du fichier Excel d'init en fichier Excel de travail
@@ -113,6 +152,8 @@ df2 = df1[['objectID', 'post_title', 'url', 'ingredient', 'label', 'quantity', '
 
 #Enregistrement de la feuille dans le fichier Excel de travail
 enregistre_travail(df2,feuille)
+sauvegarder_nouveau_fichier_excel(df2, '/home/onyxia/work/Projet-python-2.0/main/allez.xlsx', 'MaNouvelleFeuille')
+
 
 #Suppression des lignes de la feuille Maj lorsque ingredient,label,quantity,type sont vides
 df = pd.read_excel(travail, sheet_name="Maj")
@@ -133,6 +174,8 @@ for colonne_a_repeter in liste_colonne_a_repeter:
 
 #Enregistrement de la feuille dans le fichier Excel de travail
 enregistre_travail(df,feuille)
+sauvegarder_nouveau_fichier_excel(df2, '/home/onyxia/work/Projet-python-2.0/main/allez2.xlsx', 'MaNouvelleFeuille')
+
    
 df_cocktail=pd.read_excel(travail, sheet_name="Maj")
 df_ref=pd.read_excel(ref_qte_label, sheet_name="Ref")
@@ -192,20 +235,9 @@ df_cocktail['quantity_gr'] = df_cocktail['quantity_gr'] / df_cocktail['section_q
 #Génère une feuille par mesure avec le total mesure par cocktail
 for indice_ligne, ligne in enumerate(mesure):
     print(f"Ligne {indice_ligne}: {ligne[0]} - {ligne[1]}") 
+    agrege_ciqual(df_cocktail,ligne[0],ligne[1])
+    sauvegarder_nouveau_fichier_excel(agrege_ciqual(df_cocktail,ligne[0],ligne[1]), '/home/onyxia/work/Projet-python-2.0/main/' + str(ligne[0])+ '.xlsx', 'MaNouvelleFeuille')
+
+
     
 
-# Charger le fichier Excel
-print(df_cocktail.head())
-
-type_nombre = type(df_cocktail)
-print(type_nombre)
-
-
-# Définissez le nom et le chemin du fichier CSV
-nom_fichier = 'mon_dataframe2.csv'
-
-# Ouvrez le fichier CSV
-with open(nom_fichier, 'w') as f:
-
-    # Écrivez la chaîne de caractères dans le fichier
-    f.write(df_cocktail.to_string())
