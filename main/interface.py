@@ -11,7 +11,8 @@ fenetre_intro.geometry('720x720')
 fenetre_intro.title("Informations générales")
 
 presentation = """
-Afin de vous proposer les cocktails le plus adapté selon vos goûts et vos besoins nutritifs, nous allons vous demander par la suite des renseignements sur votre profil ainsi que vos potentielles intolérances.
+Afin de vous proposer les cocktails le plus adapté selon vos goûts et vos besoins nutritifs, 
+nous allons vous demander par la suite des renseignements sur votre profil ainsi que vos potentielles intolérances.
 Merci de cliquer sur la croix pour fermer la fenêtre afin de passer à la suite.
 """
 
@@ -21,7 +22,8 @@ text_widget.pack(expand='YES')
 
 fenetre_intro.mainloop()
 
-## Deuxième fenêtre demandant des renseignements sur le profil
+### Deuxième fenêtre demandant des renseignements sur le profil
+
 fenetre_profil = Tk()
 fenetre_profil.geometry('720x720')
 fenetre_profil.title("Informations personnelles")
@@ -106,15 +108,15 @@ bouton_premenaupose.pack()
 fenetre_profil.mainloop()
 
 #Récupération des données
-dic = {"age" : age.get(), "sexe" : sexe.get()}
+dic_profil = {"age" : age.get(), "sexe" : sexe.get()}
 if grossesse.get() != "None":
-    dic["grossesse"] = grossesse.get()
+    dic_profil["grossesse"] = grossesse.get()
 if allaitement.get() != "None":
-    dic["allaitement"] = allaitement.get()
+    dic_profil["allaitement"] = allaitement.get()
 if menopause.get() != "None":
-    dic["menopause"] = menopause.get()
+    dic_profil["menopause"] = menopause.get()
 
-print(dic)
+print(dic_profil)
 
 
 ### 3e fenêtre, pour les ingrédients des cocktails
@@ -138,90 +140,72 @@ liste_aliments_sans_doublons = pd.Series(liste_aliments).drop_duplicates().tolis
 #séparer alcools et ingrédients
 base_alcool = ['Gin', 'Vodka', 'Rhum','Liqueur','Tequila','Vin','Whisky','Vermouth','Crème', 'Amaretto', 'Bière', 'Cidre', 'Cognac', 'Limoncello', 'Eau-de-vie','Mezcal','Acerum','Brandy'] 
 
-def suppression_alcool(l):
-    # nous renvoie une liste avec les alcools et une avec les ingrédients
-    liste_ingredient = []
-    n = len(l)
-    m = len(base_alcool)
-    for j in range(m):
-        mot = base_alcool[j]
-        for i in range(n):
-            mot_test = l[i]
-            ratio = fuzz.token_set_ratio(mot,mot_test)
-            if ratio <= 95: #si le mot ne ressemble pas à un alcool, je le supprime 
-                #distance à modifier selon le résultat voulu
-                liste_ingredient.append(mot_test)
-    return  liste_ingredient, len(liste_ingredient)
-
-
-#print(suppression_alcool(liste_aliments_sans_doublons))
-
-#print(liste_aliments_sans_alcools)
-
-
 ## Troisième fenêtre demandant des renseignements sur les goûts
+
 fenetre_gout = Tk()
 fenetre_gout.geometry('720x720')
 fenetre_gout.title("Goûts et intolérances")
 
-# Ajout ou suppression des boutons alcools ...
 def boutons_supplementaires2():
     frame_nom_alcool.pack()
 
-
 def enlever_boutons2():
     frame_nom_alcool.pack_forget()
-
 
 # Section "Alcools"
 frame_alcool = Frame(fenetre_gout)
 label = Label(frame_alcool, text="Avec ou sans alcool", font=('Helvetica', 14, 'bold'))
 label.pack()
 alcool = StringVar()
-bouton_virgin = Radiobutton(frame_alcool, text="Sans alcool", variable=alcool, value="Sans alcool", command = enlever_boutons2)
-bouton_alcool = Radiobutton(frame_alcool, text="Avec alcool", variable=alcool, value="Avec alcool", command = boutons_supplementaires2)
+bouton_virgin = Radiobutton(frame_alcool, text="Sans alcool", variable=alcool, value="Sans alcool", command=enlever_boutons2)
+bouton_alcool = Radiobutton(frame_alcool, text="Avec alcool", variable=alcool, value="Avec alcool", command=boutons_supplementaires2)
 bouton_virgin.pack()
 bouton_alcool.pack()
-frame_alcool.pack(side = TOP)
+frame_alcool.pack(side=TOP)
 
 # Section Ingrédients
 frame_ingredients = Frame(fenetre_gout)
-label = Label(frame_ingredients, text="Ingrédients", font=('Helvetica', 14, 'bold')) #cocher les ingrédients qu'on veut pas
-label.pack(side = TOP)
-label = Label(frame_ingredients, text = 'Cochez uniquement les ingrédients que vous ne souhaitez pas dans votre cocktail, si il y en a', font=('Helvetica',8))
+label = Label(frame_ingredients, text="Ingrédients", font=('Helvetica', 14, 'bold'))
 label.pack(side=TOP)
-ingredients = StringVar()
-for mot in liste_aliments_sans_doublons : 
-    ingredients.set('None')  
-    bouton = Checkbutton(frame_ingredients, text=mot, variable=ingredients, onvalue = mot, offvalue = 'None')
+label = Label(frame_ingredients, text='Cochez uniquement les ingrédients que vous ne souhaitez pas dans votre cocktail, si il y en a', font=('Helvetica', 8))
+label.pack(side=TOP)
+choix_ingredients = []
+for mot in liste_aliments_sans_doublons:
+    ingredient_var = StringVar()
+    ingredient_var.set('None')
+    bouton = Checkbutton(frame_ingredients, text=mot, variable=ingredient_var, onvalue=mot, offvalue='None')
     bouton.pack()
-frame_ingredients.pack(side = TOP)
+    choix_ingredients.append(ingredient_var)
 
-#Section Alcools
+frame_ingredients.pack(side=TOP)
+
+# Section Alcools
 frame_nom_alcool = Frame(fenetre_gout)
 label = Label(frame_nom_alcool, text="Alcools", font=('Helvetica', 14, 'bold'))
-label.pack(side = TOP)
-label = Label(frame_nom_alcool, text = 'Cochez uniquement les ingrédients que vous ne souhaitez pas dans votre cocktail, si il y en a', font=('Helvetica',8))
 label.pack(side=TOP)
-nom_alcool = StringVar()
-nom_alcool.set("None")
-for mot in base_alcool :
-    bouton = Checkbutton(frame_nom_alcool, text=mot, variable=nom_alcool, onvalue=mot, offvalue="None")
+label = Label(frame_nom_alcool, text='Cochez uniquement les alcools que vous ne souhaitez pas dans votre cocktail, si il y en a', font=('Helvetica', 8))
+label.pack(side=TOP)
+choix_alcool = []
+for mot in base_alcool:
+    nom_var = StringVar()
+    nom_var.set("None")
+    bouton = Checkbutton(frame_nom_alcool, text=mot, variable=nom_var, onvalue=mot, offvalue="None")
     bouton.pack()
-
+    choix_alcool.append(nom_var)
 
 fenetre_gout.mainloop()
 
-
 #Récupération des données
-dic2 = {"Avec ou sans alcool" : alcool.get()}
-if ingredients.get() != "None":
-    dic2['Ingredients'] = ingredients.get()
-if nom_alcool.get() != "None":
-    dic2["Alcools"] = nom_alcool.get()
+dic_cocktails = {"Avec ou sans alcool": alcool.get(),"Ingrédients" :[], 'Alcool':[]}
+for var in choix_ingredients : 
+    if var.get() != 'None':
+        dic_cocktails['Ingrédients'].append(var.get())
+for alc in choix_alcool :
+    if alc.get() != 'None' :
+        dic_cocktails['Alcool'].append(alc.get())
 
 
-print(dic2)
+print(dic_cocktails)
 
 
 
