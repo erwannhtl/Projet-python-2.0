@@ -2,26 +2,33 @@ import openpyxl
 import shutil
 import pandas as pd
 
-#Initialisation des variables globales
-source = "/home/onyxia/work/Projet-python-2.0/main/1ou2cocktails - initial.xlsx"
+#On va chercher les tables de données dont on aura besoin
+source = "/home/onyxia/work/Projet-python-2.0/main/traitement/1ou2cocktails - initial.xlsx"
 #ce fichier contient les données brutes extraites du datascrapping du site 1ou2cocktails
 
-travail = "/home/onyxia/work/Projet-python-2.0/main/travail.xlsx"
+travail = "/home/onyxia/work/Projet-python-2.0/main/traitement/Travail.xlsx"
 #ce fichier va etre notre fichier de travail
 
 feuille="Maj"
 
-ref_qte_label = "/home/onyxia/work/Projet-python-2.0/main/Cocktails - Ref - Qté.xlsx"
+ref_qte_label = "/home/onyxia/work/Projet-python-2.0/main/traitement/Cocktails - Ref - Qté.xlsx"
 #dans ce fichier, les quantités des labels ont été uniformisées : par exemple, ''½ c. à thé de vanille'' est devenu	''0,5''	''c. à thé''
 #cela nous permet d'avoir un format d'unité classique pour tous les ingrédients
 
 
-ref_ingredient = "/home/onyxia/work/Projet-python-2.0/main/etape5.xlsx"
+ref_ingredient = "/home/onyxia/work/Projet-python-2.0/main/traitement/Cocktails - Ref - Ingrédients.xlsx"
 #pour obtenir cette table de bijection entre la table ciqual contenant les apports nutritifs et les ingrédients de nos cocktails, nous avons 
 
-ref_unite_gr = "/home/onyxia/work/Projet-python-2.0/main/Cocktails - Ref - Unité.xlsx"
-table_ciqual="/home/onyxia/work/Projet-python-2.0/main/Table Ciqual.xls"
+ref_unite_gr = "/home/onyxia/work/Projet-python-2.0/main/traitement/Cocktails - Ref - Unité.xlsx"
+#permet de faire la conversion en grammes entre les unités et les grammages
+
+table_ciqual="/home/onyxia/work/Projet-python-2.0/main/traitement/Table Ciqual.xls"
+#notre table ciqual 
+
+
 OZ_GR = 28.3495
+#valeur d'une oz
+
 #[nom feuille et colonne cocktail , nom colonne mesure table ciqual]
 mesure = [ 
 ['kcal',        'Energie, Règlement UE N° 1169/2011 (kcal/100 g)'   ] , 
@@ -29,7 +36,6 @@ mesure = [
 ['glucides',    'Glucides (g/100 g)'                                ],
 ['calcium',     'Calcium (mg/100 g)'                                ],
  ] 
-
 #Copie un fichier source vers un fichier cible
 def copie_fichier(source,cible):
     try:
@@ -45,8 +51,6 @@ def enregistre_travail(df,feuille):
         df.to_excel(writer, sheet_name=feuille, index=False)
 
 
-
-
 def sauvegarder_nouveau_fichier_excel(df, chemin_destination, nom_feuille='Feuille1'):
     """
     Sauvegarde un DataFrame dans un nouveau fichier Excel.
@@ -57,14 +61,6 @@ def sauvegarder_nouveau_fichier_excel(df, chemin_destination, nom_feuille='Feuil
     """
     with pd.ExcelWriter(chemin_destination, engine='openpyxl') as writer:
         df.to_excel(writer, sheet_name=nom_feuille, index=False)
-
-# Créez un DataFrame pour tester
-df_test = pd.DataFrame({'Colonne1': [1, 2, 3], 'Colonne2': ['a', 'b', 'c']})
-
-# Utilisez la fonction pour enregistrer ce DataFrame dans un nouveau fichier Excel
-chemin_destination = '/home/onyxia/work/Projet-python-2.0/main/alex.xlsx'
-sauvegarder_nouveau_fichier_excel(df_test, '/home/onyxia/work/Projet-python-2.0/main/blabla.xlsx', 'MaNouvelleFeuille')
-
 
 
 #Repete la valeur précédente d'une colonne d'un data frame
