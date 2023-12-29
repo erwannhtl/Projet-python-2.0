@@ -154,44 +154,7 @@ print(dic_profil)
 
 ### 3e fenêtre, pour les ingrédients des cocktails
 
-# Charger le DataFrame depuis le fichier CSV
-maj_travail = pd.read_csv('../main/maj_travail.csv', encoding='latin-1', sep = ';')
-
-# Extraire les éléments de la colonne 'aliment' dans une liste
-liste_aliments = maj_travail['aliment'].tolist()
-#print(liste_aliments)
-#print(len(liste_aliments))
-liste_aliments_sans_doublons = list(set(liste_aliments)) #enlève les doublons
-#print(liste_aliments_sans_doublons)
-#print(len(liste_aliments_sans_doublons))
-
-#séparer alcools et ingrédients - Même liste que dans le fichier cocktail.py
 base_alcool = ['Gin', 'Vodka', 'Rhum','Liqueur','Tequila','Vin','Whisky','Vermouth','Crème', 'Amaretto', 'Bière', 'Cidre', 'Cognac', 'Limoncello', 'Eau-de-vie','Mezcal','Acerum','Brandy'] 
-
-def nettoyage_alcool(l):
-    #simplifier les alcools d'une liste
-    n  = len(l)
-    for mot in base_alcool :
-        for i in range(n):
-            mot_a_tester = l[i]
-            ratio = fuzz.token_set_ratio(mot,mot_a_tester)
-            if ratio > 95 : #si le mot de la liste l est proche de l'alcool, on le remplace par l'alcool
-                l[i] = mot
-    return l
-
-liste_aliments_simplifies = nettoyage_alcool(liste_aliments_sans_doublons)
-#print(liste_aliments_simplifies, len(liste_aliments_simplifies))
-
-def suppression_alcool(l):
-    #enlever les alcools d'une liste
-    liste_sans_alcool = []
-    for mot_a_tester in l :
-        if mot_a_tester not in base_alcool:
-            liste_sans_alcool.append(mot_a_tester)
-    return liste_sans_alcool
-
-liste_aliments_sans_alcools = suppression_alcool(liste_aliments_simplifies)
-#print(liste_aliments_sans_alcools, len(liste_aliments_sans_alcools))
 
 ## Troisième fenêtre demandant des renseignements sur les goûts
 
@@ -286,10 +249,61 @@ if ingr.get() != '':
 print(liste_unique)
 
 
-#interface de cocktails à choisir
-#cocktails choisi = ça 
-#ressortir le graphe 
+### INTERFACE FINALE AVEC LE CHOIX DES COCKTAILS ET LES GRAPHIQUES 
 
+#liste de cocktails à choisir par Erwann : noms_cocktails_au_hasard
+
+
+window = Tk()
+window.geometry('720x720')
+window.title("Choix du cocktail")
+
+# Titre "Choix du cocktail"
+
+titre_label = Label(window, text="Choix du cocktail", font=('Helvetica', 14, 'bold'))
+titre_label.pack()
+
+texte_label = "Voici les 4 cocktails les plus adaptés selon vos renseignements. En les sélectionnant, vous pourrez ainsi voir les apports nutritifs du cocktail, à comparer avec les apports nutritifs conseillés pour vous."
+
+label = Label(window, text=texte_label, font=('Helvetica', 8), wraplength=600)  # Ajustez la valeur de wraplength selon vos besoins
+label.pack()
+
+
+
+noms_cocktails_au_hasard = ["cocktail 1", "cocktail 2", "cocktail 3", "cocktail 4"]  #récuperer celle d'Erwann
+lien1 = "C:/Users/Juliette/OneDrive - GENES/Bureau/GRAPHIQUE.png"  #graphiques d'Erwann à récupérer 
+lien2 = "C:/Users/Juliette/OneDrive - GENES/Bureau/GRAPHIQUE2.png"
+dic_link_image = {"cocktail 1" : lien1, "cocktail 2" : lien2, "cocktail 3" : lien1, "cocktail 4" : lien2}
+
+frame_cocktail = Frame(window)
+canva_graphique = Canvas(window)
+
+def apparaitre_graphique():
+    link = dic_link_image[cocktail.get()]
+    img = PhotoImage(file = link)
+    new_img = img.zoom(2,2)
+    canva_graphique.configure(width = new_img.width(), height = new_img.height())
+    canva_graphique.create_image(new_img.width()/2, new_img.height()/2, image = new_img)
+    canva_graphique.image = new_img
+
+
+label = Label(frame_cocktail, text="Veuillez choisir un cocktail", font=('Helvetica', 14, 'bold'))
+label.pack()
+cocktail = StringVar()
+bouton_cocktail1 = Radiobutton(frame_cocktail, text=noms_cocktails_au_hasard[0], variable=cocktail, value=noms_cocktails_au_hasard[0], command = apparaitre_graphique)
+bouton_cocktail2 = Radiobutton(frame_cocktail, text=noms_cocktails_au_hasard[1], variable=cocktail, value=noms_cocktails_au_hasard[1], command = apparaitre_graphique)
+bouton_cocktail3 = Radiobutton(frame_cocktail, text=noms_cocktails_au_hasard[2], variable=cocktail, value=noms_cocktails_au_hasard[2], command = apparaitre_graphique)
+bouton_cocktail4 = Radiobutton(frame_cocktail, text=noms_cocktails_au_hasard[3], variable=cocktail, value=noms_cocktails_au_hasard[3], command = apparaitre_graphique)
+
+bouton_cocktail1.pack()
+bouton_cocktail2.pack()
+bouton_cocktail3.pack()
+bouton_cocktail4.pack()
+
+frame_cocktail.pack()
+canva_graphique.pack(expand = YES)
+
+window.mainloop()
 
 
 
