@@ -2,6 +2,7 @@ from tkinter import *
 import pandas as pd 
 from fuzzywuzzy import fuzz
 import os
+import re
 
 os.chdir('main')
 
@@ -197,14 +198,7 @@ liste_aliments_sans_alcools = suppression_alcool(liste_aliments_simplifies)
 fenetre_gout = Tk()
 fenetre_gout.geometry('720x720')
 fenetre_gout.title("Goûts et intolérances")
-liste1, liste2 = [], []
-
-
-def ajouter_liste1(event):
-    lst_indice = choix_ingredients.curselection()
-    for i in lst_indice:
-        ingredient = liste_aliments_sans_doublons[i]
-        liste1.append(ingredient)
+liste2 = []
 
 def ajouter_liste2(event):
     lst_indice = choix_alcool.curselection()
@@ -254,34 +248,49 @@ choix_alcool.bind("<<ListboxSelect>>", ajouter_liste2)
 frame_ingredients = Frame(fenetre_gout)
 label = Label(frame_ingredients, text="Ingrédients", font=('Helvetica', 14, 'bold'))
 label.pack(side=TOP)
-label = Label(frame_ingredients, text='Cochez uniquement les ingrédients que vous ne souhaitez pas dans votre cocktail, si il y en a', font=('Helvetica', 8))
+label = Label(frame_ingredients, text="Si vous avez des allergies ou ne voulez pas d'un ou plusieurs ingrédients particuliers dans votre cocktail, merci de les renseigner", font=('Helvetica', 8))
 label.pack()
 
-# Ajout d'une scrollbar pour la liste d'ingrédients
-scrollbar_ingredients = Scrollbar(frame_ingredients, orient='vertical')
+ingr = StringVar()
+question_ingredients = Label(frame_ingredients, text = "Merci de séparer vos ingrédients d'une virgule" )
+reponse_ingredient = Entry(frame_ingredients, textvariable=ingr)
 
-choix_ingredients = Listbox(frame_ingredients, selectmode='multiple', yscrollcommand=scrollbar_ingredients.set, exportselection=0)
-scrollbar_ingredients.config(command=choix_ingredients.yview)
+question_ingredients.pack()
+reponse_ingredient.pack()
 
-for i in range(len(liste_aliments_sans_alcools)):
-    ingredient = liste_aliments_sans_alcools[i]
-    choix_ingredients.insert(i, ingredient)
-
-scrollbar_ingredients.pack(side = RIGHT, fill=Y)
-choix_ingredients.pack(side = LEFT, fill = BOTH, expand = True)
-frame_ingredients.pack()
-choix_ingredients.bind("<<ListboxSelect>>", ajouter_liste1)
+frame_ingredients.pack(side=TOP)
 
 fenetre_gout.mainloop()
 
 #Récupération des données
-liste1 = list(set(liste1))
 liste2 = list(set(liste2))
-dic_cocktails = {"Avec ou sans alcool": alcool.get(),"Ingrédients" :[], "Alcool":[]}
-dic_cocktails['Ingrédients'] = liste1
-dic_cocktails['Alcool'] = liste2
+dic_cocktails = {"Avec ou sans alcool": alcool.get(), "Alcool":[]}
+if ingr.get() != '':
+    dic_cocktails["Ingrédients"] = ingr.get()
+dic_cocktails["Alcool"] = liste2
 
 print(dic_cocktails)
+
+liste_unique = []
+
+if dic_cocktails["Avec ou sans alcool"] == "Sans alcool":
+    liste_unique.extend(base_alcool)
+
+if dic_cocktails["Alcool"]:
+    liste_unique.extend(dic_cocktails["Alcool"])
+
+if ingr.get() != '':
+    liste_ingredients = re.split(r',\s*|\s*,\s*|\s*;\s*|\s+', dic_cocktails["Ingrédients"])  #sépare les ingrédients si il y en a plusieurs
+    liste_unique.extend(liste_ingredients)
+
+print(liste_unique)
+
+
+#interface de cocktails à choisir
+#cocktails choisi = ça 
+#ressortir le graphe 
+
+
 
 
 
