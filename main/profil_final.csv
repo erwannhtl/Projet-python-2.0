@@ -1,0 +1,14 @@
+Category,Nutrient,Target population,Age,Gender,AI,AR,PRI,RI,UL,Safe and adequate intake,Years,PAL
+Energy,Energy,Children,15 years PAL=1.8,Male,NA ,12.7 MJ/day,NA. ,NA ,NA ,,15,1.8
+Protein,Protein,Children,15 years,Male,NA ,0.72 g/kg bw per day,0.88 g/kg bw per day,NA ,NA ,,15,
+Water,Water,Children,14-17 years,Male,2.5 L/day,NA ,NA ,NA ,NA ,,14-17,
+Minerals,Calcium,Children,11-17 years,Both genders,NA ,960 mg/day,1150 mg/day,NA ,ND ,,11-17,
+Minerals,Magnesium,Children,10-17 years,Male,300 mg/day,NA ,NA ,NA ,250 mg/day,,10-17,
+Minerals,Manganese,Children,15-17 years,Both genders,3 mg/day,NA ,NA ,NA ,ND ,,15-17,
+Minerals,Potassium,Children,15-17 years,Both genders,3500 mg/day,NA ,NA ,NA ,ND ,,15-17,
+Minerals,Sodium,Children,11-17 years,Both genders,NA ,NA ,NA ,NA ,ND ,2 g/day,11-17,
+Vitamins,Vitamin B6,Children,15-17 years,Male,NA ,1.5 mg/day,1.7 mg/day,NA ,20 mg/day,,15-17,
+Vitamins,Vitamin C,Children,15-17 years,Male,NA ,85 mg/day,100 mg/day,NA ,ND ,,15-17,
+Vitamins,Vitamin D,Children,15-17 years,Both genders,15 μg/day,NA ,NA ,NA ,100 μg/day,,15-17,
+Vitamins,Vitamin E,Children,15-17 years,Male,13 mg/day,NA ,NA ,NA ,260 mg/day,,15-17,
+Vitamins,Vitamin K as phylloquinone,Children,15-17 years,Both genders,65 μg/day,NA ,NA ,NA ,ND ,,15-17,
