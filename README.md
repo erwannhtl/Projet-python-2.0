@@ -74,3 +74,10 @@ L'interface fait apparaître quatre fenêtres.
 - La troisième fenêtre récupère les données sur les goûts de l'utilisateur, dans le but de lui choisir un cocktail sur mesure. La personne en question va ainsi choisir si elle veut un cocktail avec ou sans alcool, si parmi la liste d'alcools proposés il y en a qu'elle ne souhaite pas avoir et si il y a des aliments spécifiques qu'elle ne veut pas. Ces informations vont être utilisées afin d'éliminer les cocktails ne correspondant pas au désir de l'individu, et quatre cocktails seront choisi aléatoirement parmi les cocktails restant.
 
 - La dernière fenêtre renvoie au consommateur les quatre cocktails que notre projet estime les plus proche de ses goûts, et lui montre l'apport énérgétique de chacun de ces cocktails comparé à l'apport énérgétique journalier qui lui est conseillé. Il a en particulier accès à la valeur énergétique, l'apport en eau, en protéine, en magnésium, en manganèse, en potassium et en vitamines.
+
+## Etape 6 : Piste d'amélioration
+
+Voici différentes suggestions d'amélioration de notre projet :
+- Avoir un modèle de NLP qui nous permettrait de faire des associations de mots de manière plus précise que la reconnaissance de texte. Par exemple, ''gin'' et ''tequila'' peuvent être assimilés mais un simple algorithme de reconnaissance de texte ne peut pas les assimiler
+- Compléter la base ciqual avec d'autres ingrédients et notre base de cocktails avec de nouveaux cocktails
+- Coder une interface sur un autre module que tkinter, ce qui permettrait de la faire marcher sur le sspcloud et non pas uniquement en local 
