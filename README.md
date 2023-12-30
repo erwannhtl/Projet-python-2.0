@@ -74,12 +74,16 @@ Pour ce faire, nous avons utilisé le module `tkinter` . Toute cette dernière p
 L'interface fait apparaître quatre fenêtres.
 
 - La première fenêtre présente la démarche à suivre à l'utilisateur.
+![Capture d'écran 2023-12-30 230111](https://github.com/erwannhtl/Projet-python-2.0/assets/150782475/8c8842e8-bc70-4f44-a9fe-5c0215b7f8e1)
 
 - La deuxième fenêtre récupère les renseignements sur le profil de l'individu : on lui demande son sexe, son âge, la fréquence de son activité physique, son poids et d'autres caractéristiques liées à la maternité. Ces renseignements vont être utilisés dans le programme de l'étape 3, afin de déterminer l'apport nutritif journalier conseillé pour cette personne.
+![choix profil](https://github.com/erwannhtl/Projet-python-2.0/assets/150782475/18d343cc-1442-4192-8b99-561bc286b90e)
 
-- La troisième fenêtre récupère les données sur les goûts de l'utilisateur, dans le but de lui choisir un cocktail sur mesure. La personne en question va ainsi choisir si elle veut un cocktail avec ou sans alcool, si parmi la liste d'alcools proposés il y en a qu'elle ne souhaite pas avoir et si il y a des aliments spécifiques qu'elle ne veut pas. Ces informations vont être utilisées afin d'éliminer les cocktails ne correspondant pas au désir de l'individu, et quatre cocktails seront choisi aléatoirement parmi les cocktails restant.
+- La troisième fenêtre récupère les données sur les goûts de l'utilisateur, dans le but de lui choisir un cocktail sur mesure. La personne en question va ainsi choisir si elle veut un cocktail avec ou sans alcool, si parmi la liste d'alcools proposés il y en a qu'elle ne souhaite pas avoir et si il y a des aliments spécifiques qu'elle ne veut pas. Ces informations vont être utilisées afin d'éliminer les cocktails ne correspondant pas au désir de l'individu, et quatre cocktails seront choisi aléatoirement parmi les cocktails restant.![choix goûts](https://github.com/erwannhtl/Projet-python-2.0/assets/150782475/1f27de27-0461-4d1c-bbb0-76bc964033ba)
+
 
 - La dernière fenêtre renvoie au consommateur les quatre cocktails que notre projet estime les plus proche de ses goûts, et lui montre l'apport énérgétique de chacun de ces cocktails comparé à l'apport énérgétique journalier qui lui est conseillé. Il a en particulier accès à la valeur énergétique, l'apport en eau, en protéine, en magnésium, en manganèse, en potassium et en vitamines.
+
 
 ## Etape 7 : Création des graphiques et visualisation
 
