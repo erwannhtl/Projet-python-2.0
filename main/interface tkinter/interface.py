@@ -3,6 +3,7 @@ import pandas as pd
 from fuzzywuzzy import fuzz
 import os
 import re
+import random
 
 os.chdir('main')
 
@@ -13,7 +14,8 @@ fenetre_intro.geometry('720x720')
 fenetre_intro.title("Informations générales")
 
 #image de bar 
-fond = PhotoImage(file="image-bar.png")
+
+fond = PhotoImage(file="../main/interface tkinter/image-bar.png")
 
 #mettre l'image en fond
 canvas = Canvas(fenetre_intro, width=720, height=720)
@@ -117,6 +119,20 @@ bouton_régulière.pack()
 bouton_quotidienne.pack()
 frame_physique.pack(side = TOP)
 
+# Section Poids
+frame_poids = Frame(fenetre_profil)
+label = Label(frame_poids, text="Poids", font=('Helvetica', 14, 'bold'))
+label.pack(side=TOP)
+
+pds = StringVar()
+question_poids = Label(frame_poids, text = "Merci d'indiquer votre poids en kg, en arrondissant à l'entier le plus proche" )
+reponse_poids = Entry(frame_poids, textvariable=pds)
+
+question_poids.pack()
+reponse_poids.pack()
+
+frame_poids.pack(side=TOP)
+
 #Section "Grossesse"
 frame_grossesse = Frame(fenetre_profil)
 label = Label(frame_grossesse, text="Grossesse & Allaitement", font=('Helvetica', 14, 'bold'))
@@ -142,7 +158,7 @@ fenetre_profil.mainloop()
 
 #Récupération des données
 liste = list(set(liste))
-dic_profil = {"age" : liste[0], "sexe" : sexe.get(), 'activité physique': physique.get(), "spécificités" : []}
+dic_profil = {"age" : liste[0], "sexe" : sexe.get(), 'activité physique': physique.get(),'poids' : pds.get(), "spécificités" : []}
 if grossesse.get() != "None":
     dic_profil["spécificités"].append(grossesse.get())
 if allaitement.get() != "None":
@@ -239,12 +255,20 @@ liste_unique = []
 if dic_cocktails["Avec ou sans alcool"] == "Sans alcool":
     liste_unique.extend(base_alcool)
 
+if dic_profil["age"] in ["10 ans","11 ans","12 ans","13 ans","14 ans","15 ans","16 ans","17 ans"]:
+    liste_unique.extend(base_alcool)
+
+if dic_profil["spécificités"] != []:
+    liste_unique.extend(base_alcool)
+
 if dic_cocktails["Alcool"]:
     liste_unique.extend(dic_cocktails["Alcool"])
 
 if ingr.get() != '':
     liste_ingredients = re.split(r',\s*|\s*,\s*|\s*;\s*|\s+', dic_cocktails["Ingrédients"])  #sépare les ingrédients si il y en a plusieurs
     liste_unique.extend(liste_ingredients)
+
+liste_unique = list(set(liste_unique)) #enlever les doublons
 
 print(liste_unique)
 
@@ -304,9 +328,6 @@ frame_cocktail.pack()
 canva_graphique.pack(expand = YES)
 
 window.mainloop()
-
-
-
 
 
 
