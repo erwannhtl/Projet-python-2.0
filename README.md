@@ -74,7 +74,7 @@ Pour ce faire, nous avons utilisé le module `tkinter` . Toute cette dernière p
 L'interface fait apparaître quatre fenêtres.
 
 - La première fenêtre présente la démarche à suivre à l'utilisateur.
-![Capture d'écran 2023-12-30 230111](https://github.com/erwannhtl/Projet-python-2.0/assets/150782475/8c8842e8-bc70-4f44-a9fe-5c0215b7f8e1)
+<img src="(https://github.com/erwannhtl/Projet-python-2.0/assets/150782475/8c8842e8-bc70-4f44-a9fe-5c0215b7f8e1)" width = "75%">
 
 - La deuxième fenêtre récupère les renseignements sur le profil de l'individu : on lui demande son sexe, son âge, la fréquence de son activité physique, son poids et d'autres caractéristiques liées à la maternité. Ces renseignements vont être utilisés dans le programme de l'étape 3, afin de déterminer l'apport nutritif journalier conseillé pour cette personne.
 ![choix profil](https://github.com/erwannhtl/Projet-python-2.0/assets/150782475/18d343cc-1442-4192-8b99-561bc286b90e)
