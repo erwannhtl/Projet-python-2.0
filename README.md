@@ -75,7 +75,7 @@ L'interface fait apparaître quatre fenêtres.
 
 - La dernière fenêtre renvoie au consommateur les quatre cocktails que notre projet estime les plus proche de ses goûts, et lui montre l'apport énérgétique de chacun de ces cocktails comparé à l'apport énérgétique journalier qui lui est conseillé. Il a en particulier accès à la valeur énergétique, l'apport en eau, en protéine, en magnésium, en manganèse, en potassium et en vitamines.
 
-## Etape 6 : Piste d'amélioration
+## Etape 6 : Pistes d'amélioration
 
 Voici différentes suggestions d'amélioration de notre projet :
 - Avoir un modèle de NLP qui nous permettrait de faire des associations de mots de manière plus précise que la reconnaissance de texte. Par exemple, ''gin'' et ''tequila'' peuvent être assimilés mais un simple algorithme de reconnaissance de texte ne peut pas les assimiler
