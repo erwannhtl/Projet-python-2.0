@@ -99,4 +99,5 @@ Nous avons décidé de faire une visualisation des données logarithmiques afin 
 Voici différentes suggestions d'amélioration de notre projet :
 - Avoir un modèle de NLP qui nous permettrait de faire des associations de mots de manière plus précise que la reconnaissance de texte. Par exemple, ''gin'' et ''tequila'' peuvent être assimilés mais un simple algorithme de reconnaissance de texte ne peut pas les assimiler
 - Compléter la base ciqual avec d'autres ingrédients et notre base de cocktails avec de nouveaux cocktails
-- Coder une interface sur un autre module que tkinter, ce qui permettrait de la faire marcher sur le sspcloud et non pas uniquement en local 
+- Coder une interface sur un autre module que tkinter, ce qui permettrait de la faire marcher sur le sspcloud et non pas uniquement en local
+- Au niveau du traitement des vitamines, notamment la vitamine C affiner le code
