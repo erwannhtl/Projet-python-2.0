@@ -1,4 +1,4 @@
-# ** Projet Python 2A **
+# **Projet Python 2A**
 
 Erwann Hotellier • Alexia Duclert • Juliette Schneider
 
@@ -11,9 +11,11 @@ Il s'agit d'un programme qui propose un choix de cocktails optimaux en terme d'a
 
 Dans le notebook **??** se trouvent les instructions détaillées pour installer les éléments requis et pour utiliser le programme.
 
-## Etape 1 : extraction de recettes de cocktails en scrappant le site ??
+## Etape 1 : extraction de recettes de cocktails en scrappant le site [1 ou 2 cocktails]
 
 ### Scrapping
+
+[1 ou 2 cocktails]('https://1ou2cocktails.com/cocktails/')
 
 Le scrapper a été codé grâce au module..., fonctionne avec ...
 IL fait ... (cf exemple projet marmiton)
@@ -47,7 +49,7 @@ tables des recettes/ingrédients
 
 ## Etape 2 : identification des cocktails et de leurs apports nutritifs grâce à la base Ciqual
 
-Nous avons importé la base de données Ciqual à partir du site [?] ("https:// ??)
+Nous avons importé la base de données Ciqual à partir du site [DataGouv] ("https://www.data.gouv.fr/fr/datasets/table-de-composition-nutritionnelle-des-aliments-ciqual/")
 
 Ensuite (nettoyage de ciqual, sélection des colonnes qui nous intéresse, bijection des ingrédients) avec la fonction ??
 
@@ -59,7 +61,7 @@ Explication des différentes tables créées
 
 ## Etape 3 : Identification des besoins nutritifs journaliers selon le profil de l'individu, issu de la base DRVS ?
 
-Nous avons importé la base de données DRVS ?? à partir du site []("https://)
+Nous avons importé la base de données DRVs à partir du site [DRV Finder]("https://multimedia.efsa.europa.eu/drvs/index.htm")
 
 Ensuite : identification des nutriments intéressant, des profils à regarder (par exemple ménaupose pas intéressant), des données à récuperer sur l'individu (par exemple poids pour protéines), telles fonction
 
@@ -68,4 +70,16 @@ Finalement, nous retournons un graphiques (il me semble ?) des besoins journalie
 
 ## Etape 4 : interface pour récupérer les données de l'individu
 
-partie sur tkinter 
+Le but du projet était de créer une interface interactive, afin de récupérer les renseignements propre à chaque utilisateur et de proposer des cocktails "personnalisés", c'est-à-dire les plus adaptés pour l'utilisateur en question. 
+
+Pour ce faire, nous avons utilisé le module `tkinter` . Toute cette dernière partie a été effectuée dans le fichier **interface.py** du dossier **`interface tkinter`**. Par souci de reproductibilité, cette partie ne sera pas disponible sur le notebook **nom du notebook**, mais les résultats seront présentés à l'oral.
+
+L'interface fait apparaître quatre fenêtres.
+
+- La première fenêtre présente la démarche à suivre à l'utilisateur.
+
+- La deuxième fenêtre récupère les renseignements sur le profil de l'individu : on lui demande son sexe, son âge, la fréquence de son activité physique, son poids et d'autres caractéristiques liées à la maternité. Ces renseignements vont être utilisés dans le programme de l'étape 3, afin de déterminer l'apport nutritif journalier conseillé pour cette personne.
+
+- La troisième fenêtre récupère les données sur les goûts de l'utilisateur, dans le but de lui choisir un cocktail sur mesure. La personne en question va ainsi choisir si elle veut un cocktail avec ou sans alcool, si parmi la liste d'alcools proposés il y en a qu'elle ne souhaite pas avoir et si il y a des aliments spécifiques qu'elle ne veut pas. Ces informations vont être utilisées afin d'éliminer les cocktails ne correspondant pas au désir de l'individu, et quatre cocktails seront choisi aléatoirement parmi les cocktails restant.
+
+- La dernière fenêtre renvoie au consommateur les quatre cocktails que notre projet estime les plus proche de ses goûts, et lui montre l'apport énérgétique de chacun de ces cocktails comparé à l'apport énérgétique journalier qui lui est conseillé. Il a en particulier accès à la valeur énergétique, l'apport en eau, en protéine, en magnésium, en manganèse, en potassium et en vitamines.
