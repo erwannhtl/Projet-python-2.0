@@ -26,13 +26,13 @@ Nous avons travaillé avec trois bases de données :
 
 Dans le notebook **??** se trouvent les instructions détaillées pour installer les éléments requis et pour utiliser le programme.
 
-### Etape 1 : Scrapping
+## Etape 1 : Scrapping
 
 [1 ou 2 cocktails](" https://1ou2cocktails.com/cocktails/ ")
 
 Nous avons fait data scrappé le site 1ou2cocktails qui nous semblait être le site le plus complet. Cependant, nous ne pouvions pas récupérer les informations dans le code html car certaines parties étaient écrites en Javascript. Nous avons donc fait des requêtes directement au serveur pour récupérer un fichier json avec toutes les informations.
 
-### Etape 2 : Nettoyage des ingrédients et bijection avec Ciqual
+## Etape 2 : Nettoyage des ingrédients et bijection avec Ciqual
 
 Nous détaillons dans le notebook les différentes étapes de nettoyages des ingrédients. Cette étape était assez complexe car nous devions faire l'arbitrage entre précision et simplification. En effet, en travaillant avec de la reconnaissance de texte, par définition imprécise, en voulant trop nettoyer, nous perdions beaucoup d'informations et inversement.
 
