@@ -9,7 +9,8 @@ Il s'agit d'un programme qui propose un choix de cocktails optimaux en terme d'a
 ## Introduction
 L'intérêt pour les apports nutritionnels est un sujet de plus en plus prédominant dans notre société consciente de la santé. Alors que la plupart des efforts se concentrent sur les aliments quotidiens et les boissons traditionnelles, ce projet, en se concentrant sur les cocktails, crée un pont entre santé et divertissement. Nous voulions savoir, si les cocktails, souvent associés au plaisir et à la détente, pouvaient néanmoins être source de nutriments.
 
-Nos besoins en nutriments quotidiens varient en fonction de notre âge, de notre sexe, de notre activité physique etc, ainsi, nous souhaitions personnaliser notre projet en fonction des caractéristiques de l'utilisateur : ![500f681f-2cd1-45f6-b6d5-61b6e2a65ff7](https://github.com/erwannhtl/Projet-python-2.0/assets/126115377/dd467857-8760-48ee-ac05-8e9b12e8e7d9){ width=30% }
+Nos besoins en nutriments quotidiens varient en fonction de notre âge, de notre sexe, de notre activité physique etc, ainsi, nous souhaitions personnaliser notre projet en fonction des caractéristiques de l'utilisateur : <img src="https://github.com/erwannhtl/Projet-python-2.0/assets/126115377/dd467857-8760-48ee-ac05-8e9b12e8e7d9" width="30%">
+
 
 
 
