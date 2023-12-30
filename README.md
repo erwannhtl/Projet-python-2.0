@@ -18,41 +18,23 @@ Ainsi, notre projet propose une interface à l'utilisateur : il rentre son profi
 Nous avons travaillé avec trois bases de données : 
 - La base des cocktails, data scrappée sur le site 1ou2cocktails
 - La base ciqual qui regroupe les données nutritives de plus de 3 000 aliments
-- La base                                          
+- La base DRVs qui nous donnait les apports en nutriments nécessaires en fonction de chaque profil                                        
 
-
-
-Sur le plan technique, la base de données des cocktails, bien que variée, reste de taille gérable. Cela permet une analyse approfondie sans les complexités ou les surcharges de données associées à des bases de données plus vastes.
 
 
 ## Installation et utilisation
 
 Dans le notebook **??** se trouvent les instructions détaillées pour installer les éléments requis et pour utiliser le programme.
 
-## Etape 1 : extraction de recettes de cocktails en scrappant le site [1 ou 2 cocktails]
-
-### Scrapping
+### Etape 1 : Scrapping
 
 [1 ou 2 cocktails](" https://1ou2cocktails.com/cocktails/ ")
 
-Le scrapper a été codé grâce au module..., fonctionne avec ...
-IL fait ... (cf exemple projet marmiton)
+Nous avons fait data scrappé le site 1ou2cocktails qui nous semblait être le site le plus complet. Cependant, nous ne pouvions pas récupérer les infromations dans le code html car certaines parties étaient écrites en Javascript. Nous avons donc fait des requêtes directement au serveur pour récupérer un fichier json avec toutes les informations.
 
-### Nettoyage des ingrédients
+### Etape 2 : Nettoyage des ingrédients
 
-On peut alors nettoyer les ingrédients en enlevant ...
-Convertir les unités en ...
-on l'a fait dans le fichier **fichier.py** du dossier **dossier du fichier**.
-
-La procédure est la suivante : (j'ai mis des idées)
-- On identifie un ingrédient
-- On enlève les URL
-- On sépare des quantités
-- On convertit...
-- Comparaison avec le dico fr 
-
-
-### Distance entre deux chaînes de caractères
+Nous détaillons dans le notebook les différentes étapes de nettoyages des ingrédients. Cette étape était assez complexe car nous devions faire l'arbitrage entre précision et simplification. En effet, en travaillant avec de la reconnaissance de texte, par définition imprécise, en voulant trop nettoyer, nous perdions beaucoup d'informations et inversement.
 
 Les ingrédients de la base sont très précis, avec un certains nombres de noms propres, en particulier pour les alcools. Dans la suite du projet, nous souhaitons sélectionner des cocktails par leurs ingrédients, afin de prendre en compte les goûts de l'utilisateur. 
 
@@ -61,11 +43,7 @@ Si la quantité d'ingrédient est dense est très diversifiée, le nombre d'alco
 Pour ce faire, nous avons extrait du site de recette de cocktails (URL ??) les différentes classes d'alcools qu'ils considèrent. Ensuite, nous avons utilisé la **Partial Levenshtein distance (FWZ)**, implémentée par le module `fuzzywuzzy`, qui cacule la distance de Levenshtein entre la chaîne la plus courte et tous les sous-chaînes de la chaîne la plus longue de même longueur que la chaîne la plus courte, et ensuite prend le minimum de toutes ces valeurs. Cette distance nous a permis de comparer les noms d'alcool de la base aux noms de classes d'alcools extraites du site, et ainsi de les modifier.
 
 
-### Sortie du scrapper
-
-tables des recettes/ingrédients
-
-## Etape 2 : identification des cocktails et de leurs apports nutritifs grâce à la base Ciqual
+## Etape 3 : Traitement des données
 
 Nous avons importé la base de données Ciqual à partir du site [DataGouv] ("https://www.data.gouv.fr/fr/datasets/table-de-composition-nutritionnelle-des-aliments-ciqual/")
 
@@ -77,7 +55,7 @@ Agrégation des données :
 
 Explication des différentes tables créées
 
-## Etape 3 : Identification des besoins nutritifs journaliers selon le profil de l'individu, issu de la base DRVS ?
+## Etape 4 : Identification des besoins nutritifs journaliers selon le profil de l'individu, issu de la base DRVS ?
 
 Nous avons importé la base de données DRVs à partir du site [DRVFinder] ("https://multimedia.efsa.europa.eu/drvs/index.htm")
 
@@ -86,7 +64,7 @@ Ensuite : identification des nutriments intéressant, des profils à regarder (p
 Finalement, nous retournons un graphiques (il me semble ?) des besoins journaliers selon l'individu à partir des données issu de la base DRVs.
 
 
-## Etape 4 : interface pour récupérer les données de l'individu
+## Etape 5 : interface pour récupérer les données de l'individu
 
 Le but du projet était de créer une interface interactive, afin de récupérer les renseignements propre à chaque utilisateur et de proposer des cocktails "personnalisés", c'est-à-dire les plus adaptés pour l'utilisateur en question. 
 
