@@ -30,9 +30,9 @@ Dans le notebook **??** se trouvent les instructions détaillées pour installer
 
 [1 ou 2 cocktails](" https://1ou2cocktails.com/cocktails/ ")
 
-Nous avons fait data scrappé le site 1ou2cocktails qui nous semblait être le site le plus complet. Cependant, nous ne pouvions pas récupérer les infromations dans le code html car certaines parties étaient écrites en Javascript. Nous avons donc fait des requêtes directement au serveur pour récupérer un fichier json avec toutes les informations.
+Nous avons fait data scrappé le site 1ou2cocktails qui nous semblait être le site le plus complet. Cependant, nous ne pouvions pas récupérer les informations dans le code html car certaines parties étaient écrites en Javascript. Nous avons donc fait des requêtes directement au serveur pour récupérer un fichier json avec toutes les informations.
 
-### Etape 2 : Nettoyage des ingrédients
+### Etape 2 : Nettoyage des ingrédients et bijection avec Ciqual
 
 Nous détaillons dans le notebook les différentes étapes de nettoyages des ingrédients. Cette étape était assez complexe car nous devions faire l'arbitrage entre précision et simplification. En effet, en travaillant avec de la reconnaissance de texte, par définition imprécise, en voulant trop nettoyer, nous perdions beaucoup d'informations et inversement.
 
@@ -40,20 +40,16 @@ Les ingrédients de la base sont très précis, avec un certains nombres de noms
 
 Si la quantité d'ingrédient est dense est très diversifiée, le nombre d'alcool est limité. Nous avons donc décidé de simplifier tous les noms d'alcools de la base en des catégories plus grandes. Par exemple, 'gin de Palaiseau' et 'gin de New-York' deviendront 'gin', toutes les liqueurs différentes seront uniquement dénommées par 'liqueur'.
 
-Pour ce faire, nous avons extrait du site de recette de cocktails (URL ??) les différentes classes d'alcools qu'ils considèrent. Ensuite, nous avons utilisé la **Partial Levenshtein distance (FWZ)**, implémentée par le module `fuzzywuzzy`, qui cacule la distance de Levenshtein entre la chaîne la plus courte et tous les sous-chaînes de la chaîne la plus longue de même longueur que la chaîne la plus courte, et ensuite prend le minimum de toutes ces valeurs. Cette distance nous a permis de comparer les noms d'alcool de la base aux noms de classes d'alcools extraites du site, et ainsi de les modifier.
+Pour ce faire, nous avons extrait du site de recette de cocktails les différentes classes d'alcools qu'ils considèrent. Ensuite, nous avons utilisé la **Partial Levenshtein distance (FWZ)**, implémentée par le module `fuzzywuzzy`, qui cacule la distance de Levenshtein entre la chaîne la plus courte et tous les sous-chaînes de la chaîne la plus longue de même longueur que la chaîne la plus courte, et ensuite prend le minimum de toutes ces valeurs. Cette distance nous a permis de comparer les noms d'alcool de la base aux noms de classes d'alcools extraites du site, et ainsi de les modifier.
+
+A la fin de cette étape, nous avons une base de données de référence, qui recense les bijections trouvées entre la base ciqual et la base d'ingrédients.
 
 
 ## Etape 3 : Traitement des données
 
-Nous avons importé la base de données Ciqual à partir du site [DataGouv] ("https://www.data.gouv.fr/fr/datasets/table-de-composition-nutritionnelle-des-aliments-ciqual/")
+Dans cette partie, nous avons fait des conversions de quantités car la base ciqual nous donnait les valeurs nutritives pour 100g et que chaque cocktail avait des quantités en ml ou peu précises (ex : une tranche). Ensuite, nous avons sommé les valeurs sur tous les cocktails pour avoir à la fin l'estimation de l'apport nutritif d'un cocktails à partir des apports des différents ingrédients issus de la base Ciqual.
+Ce code nous permet d'obtenir, pour chaque cocktail une feuille avec une approximation des apports (kcal, calcium...) pour chaque cocktail.
 
-Ensuite (nettoyage de ciqual, sélection des colonnes qui nous intéresse, bijection des ingrédients) avec la fonction ??
-
-Finalement, nous retournons l'estimation de l'apport nutritif d'un cocktails à partir des apports des différents ingrédients issus de la base Ciqual.
-
-Agrégation des données :
-
-Explication des différentes tables créées
 
 ## Etape 4 : Identification des besoins nutritifs journaliers selon le profil de l'individu, issu de la base DRVS ?
 
