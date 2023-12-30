@@ -52,14 +52,20 @@ Dans cette partie, nous avons fait des conversions de quantités car la base ciq
 
 ## Etape 4 : Identification des besoins nutritifs journaliers selon le profil de l'individu, issu de la base DRVS ?
 
-Nous avons importé la base de données DRVs à partir du site [DRVFinder] ("https://multimedia.efsa.europa.eu/drvs/index.htm")
+Nous avons importé la base de données DRVs à partir du site [DRVFinder] ("https://multimedia.efsa.europa.eu/drvs/index.htm") 
 
-Ensuite : identification des nutriments intéressant, des profils à regarder (par exemple ménaupose pas intéressant), des données à récuperer sur l'individu (par exemple poids pour protéines), telles fonction
+Le script **Transformation_DRVs_All_pop** effectue un processus complet de prétraitement des données nutritionnelles, de nettoyage, de normalisation, de conversion, et de filtrage, aboutissant à un DataFrame prêt pour une analyse nutritionnelle plus approfondie.
 
-Finalement, nous retournons un graphiques (il me semble ?) des besoins journaliers selon l'individu à partir des données issu de la base DRVs.
+Ensuite : identification des nutriments intéressant, des profils à regarder (par exemple ménaupose pas intéressant), des données à récuperer sur l'individu (par exemple poids pour protéines). 
 
+A la suite de quoi, pour le script **obtention apports journaliers** utilise la bibliothèque Pandas pour manipuler et analyser des données nutritionnelles, en les filtrant, les combinant et en ajustant certaines valeurs en fonction des besoins spécifiés. Il offre une approche automatisée pour obtenir des profils nutritionnels basés sur des critères tels que l'âge, le sexe et l'activité physique.
 
-## Etape 5 : interface pour récupérer les données de l'individu
+Finalement, nous retournons un fichier csv des besoins journaliers selon l'individu à partir des données issu de la base DRVs et de ce qu'il aura remplis dans l'interface. 
+
+## Etape 5 : selection du cocktail
+
+Le script **selection_cocktail** réalise un ensemble de manipulations de données, de filtrages, et de sélections aléatoires pour extraire des informations spécifiques sur les cocktails à partir d'un fichier Excel. Ces étapes permettent d'obtenir des résultats plus ciblés en fonction des ingrédients que l'individu ne souhaite pas et de générer des échantillons aléatoires de 4 cocktail dont la recette ne comporte pas d'ingrédient qu'il ne souhaite pas.
+## Etape 6 : interface pour récupérer les données de l'individu
 
 Le but du projet était de créer une interface interactive, afin de récupérer les renseignements propre à chaque utilisateur et de proposer des cocktails "personnalisés", c'est-à-dire les plus adaptés pour l'utilisateur en question. 
 
@@ -75,7 +81,16 @@ L'interface fait apparaître quatre fenêtres.
 
 - La dernière fenêtre renvoie au consommateur les quatre cocktails que notre projet estime les plus proche de ses goûts, et lui montre l'apport énérgétique de chacun de ces cocktails comparé à l'apport énérgétique journalier qui lui est conseillé. Il a en particulier accès à la valeur énergétique, l'apport en eau, en protéine, en magnésium, en manganèse, en potassium et en vitamines.
 
-## Etape 6 : Pistes d'amélioration
+## Etape 7 : Création des graphiques et visualisation
+
+Le script **création_graphiques** permet la création de graphiques afin de visualiser les données des cocktails.
+
+Extraction des nutriments pour des cocktails spécifiques issus de **selection_cocktail**: Une fonction dédiée est ensuite utilisée pour extraire les informations nutritionnelles spécifiques à cette liste de cocktails. Cette fonction utilise le fichier CSV généré précédemment pour filtrer les données et générer un ensemble de résultats spécifique à chaque cocktail.
+
+Création de graphiques : La dernière partie du script utilise la bibliothèque matplotlib pour créer des graphiques de type barplot. Ces graphiques comparent visuellement les besoins nutritionnels avec les apports spécifiques pour chaque cocktail, offrant une représentation graphique des données nutritionnelles.
+
+
+## Etape 8 : Pistes d'amélioration
 
 Voici différentes suggestions d'amélioration de notre projet :
 - Avoir un modèle de NLP qui nous permettrait de faire des associations de mots de manière plus précise que la reconnaissance de texte. Par exemple, ''gin'' et ''tequila'' peuvent être assimilés mais un simple algorithme de reconnaissance de texte ne peut pas les assimiler
