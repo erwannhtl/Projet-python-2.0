@@ -11,6 +11,14 @@ L'intérêt pour les apports nutritionnels est un sujet de plus en plus prédomi
 
 Nos besoins en nutriments quotidiens varient en fonction de notre âge, de notre sexe, de notre activité physique etc, ainsi, nous souhaitions personnaliser notre projet en fonction des caractéristiques de l'utilisateur : <img src="https://github.com/erwannhtl/Projet-python-2.0/assets/126115377/dd467857-8760-48ee-ac05-8e9b12e8e7d9" width="50%">
 
+Ainsi, notre projet propose une interface à l'utilisateur : il rentre son profil et les ingrédients qu'il souhaite éviter dans son cockail, l'interface lui renvoie plusieurs cocktails, il choisit celui qu'il préfère et l'interface lui affiche les apports nutritifs de ce cocktail par rapport à ses besoins nutritifs journaliers. 
+
+## Présentation des bases de données 
+
+Nous avons travaillé avec trois bases de données : 
+- La base des cocktails, data scrappée sur le site 1ou2cocktails
+- La base ciqual qui regroupe les données nutritives de plus de 3 000 aliments
+- La base                                          
 
 
 
