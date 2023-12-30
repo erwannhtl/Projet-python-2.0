@@ -47,8 +47,7 @@ A la fin de cette étape, nous avons une base de données de référence, qui re
 
 ## Etape 3 : Traitement des données
 
-Dans cette partie, nous avons fait des conversions de quantités car la base ciqual nous donnait les valeurs nutritives pour 100g et que chaque cocktail avait des quantités en ml ou peu précises (ex : une tranche). Ensuite, nous avons sommé les valeurs sur tous les cocktails pour avoir à la fin l'estimation de l'apport nutritif d'un cocktails à partir des apports des différents ingrédients issus de la base Ciqual.
-Ce code nous permet d'obtenir, pour chaque cocktail une feuille avec une approximation des apports (kcal, calcium...) pour chaque cocktail.
+Dans cette partie, nous avons fait des conversions de quantités car la base ciqual nous donnait les valeurs nutritives pour 100g et que chaque cocktail avait des quantités en ml ou peu précises (ex : une tranche). En utilisant la bijection obtenue à la partie précédene entre ciqual et la liste d'ingrédients, nous avons sommé les valeurs sur tous les cocktails pour avoir à la fin l'estimation de l'apport nutritif d'un cocktails à partir des apports des différents ingrédients issus de la base Ciqual.
 
 
 ## Etape 4 : Identification des besoins nutritifs journaliers selon le profil de l'individu, issu de la base DRVS ?
