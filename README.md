@@ -91,8 +91,8 @@ Création de graphiques : La dernière partie du script utilise la bibliothèque
 
 Nous avons décidé de faire une visualisation des données logarithmiques afin de pouvoir mettre toutes les données sur une même image et que ça reste visuel en plus de cela nous avons ajouté sous chaque nutriment le pourcentage en apport journalier du cocktail. Nous obtenons donc finalement quel graphique pour les quatre cocktails que le script interface appellera lorsque l'utilisateur choisira tel ou tel cocktail.
 
-<img src="https://github.com/erwannhtl/Projet-python-2.0/blob/main/main/graphique_Digestif%20Hivernal%20Tequila%20et%20Tia%20Maria.png" width="75%">
-<img src="https://github.com/erwannhtl/Projet-python-2.0/blob/main/main/graphique_Le%20Mama%20Rula.png" width="75%">
+<img src="https://github.com/erwannhtl/Projet-python-2.0/blob/main/main/Graphique/graphique_Rhum%20Chic%20Choc%20aux%20fruits%20rouges.png" width="75%">
+<img src="https://github.com/erwannhtl/Projet-python-2.0/blob/main/main/Graphique/graphique_Le%20Mama%20Rula.png" width="75%">
 
 ## Etape 8 : Pistes d'amélioration
 
