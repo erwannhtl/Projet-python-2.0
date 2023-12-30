@@ -15,7 +15,7 @@ Dans le notebook **??** se trouvent les instructions détaillées pour installer
 
 ### Scrapping
 
-[1 ou 2 cocktails]('https://1ou2cocktails.com/cocktails/')
+[1 ou 2 cocktails](" https://1ou2cocktails.com/cocktails/ ")
 
 Le scrapper a été codé grâce au module..., fonctionne avec ...
 IL fait ... (cf exemple projet marmiton)
@@ -61,7 +61,7 @@ Explication des différentes tables créées
 
 ## Etape 3 : Identification des besoins nutritifs journaliers selon le profil de l'individu, issu de la base DRVS ?
 
-Nous avons importé la base de données DRVs à partir du site [DRV Finder]("https://multimedia.efsa.europa.eu/drvs/index.htm")
+Nous avons importé la base de données DRVs à partir du site [DRVFinder] ("https://multimedia.efsa.europa.eu/drvs/index.htm")
 
 Ensuite : identification des nutriments intéressant, des profils à regarder (par exemple ménaupose pas intéressant), des données à récuperer sur l'individu (par exemple poids pour protéines), telles fonction
 

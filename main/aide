@@ -1,7 +1,0 @@
-git add .
-git commit -m "Message du commit"
-git push
-
-Pour run un fichier python faut marquer python3  fichier.py
-
-Pour installer beautifulsoup4, il faut mettre pip install bs4 dans le terminal puis pip install lxml

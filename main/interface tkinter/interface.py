@@ -4,6 +4,7 @@ from fuzzywuzzy import fuzz
 import os
 import re
 import random
+from PIL import Image, ImageTk
 
 os.chdir('main')
 
@@ -292,20 +293,29 @@ texte_label = "Voici les 4 cocktails les plus adaptés selon vos renseignements.
 label = Label(window, text=texte_label, font=('Helvetica', 8), wraplength=600)  # Ajustez la valeur de wraplength selon vos besoins
 label.pack()
 
+#from création_graphiques import noms_cocktails_au_hasard
 
+import selection_cocktail 
 
-noms_cocktails_au_hasard = ["cocktail 1", "cocktail 2", "cocktail 3", "cocktail 4"]  #récuperer celle d'Erwann
-lien1 = "C:/Users/Juliette/OneDrive - GENES/Bureau/GRAPHIQUE.png"  #graphiques d'Erwann à récupérer 
-lien2 = "C:/Users/Juliette/OneDrive - GENES/Bureau/GRAPHIQUE2.png"
-dic_link_image = {"cocktail 1" : lien1, "cocktail 2" : lien2, "cocktail 3" : lien1, "cocktail 4" : lien2}
+graph1 = "graphique_{}.png".format(noms_cocktails_au_hasard[0])
+graph2 = "graphique_{}.png".format(noms_cocktails_au_hasard[1])
+graph3 = "graphique_{}.png".format(noms_cocktails_au_hasard[2])
+graph4 = "graphique_{}.png".format(noms_cocktails_au_hasard[3])
+dic_link_image = {noms_cocktails_au_hasard[0] : graph1, noms_cocktails_au_hasard[1] : graph2, noms_cocktails_au_hasard[2] : graph3, noms_cocktails_au_hasard[3] : graph4}
 
 frame_cocktail = Frame(window)
+
 canva_graphique = Canvas(window)
 
 def apparaitre_graphique():
     link = dic_link_image[cocktail.get()]
-    img = PhotoImage(file = link)
-    new_img = img.zoom(2,2)
+    img = Image.open(link)
+    zoom_factor = 0.7
+    width, height = int(img.width * zoom_factor), int(img.height * zoom_factor)
+    img = img.resize((width, height))
+    new_img = ImageTk.PhotoImage(img)
+    #img = PhotoImage(file = link)
+    #new_img = img.subsample(2,2)
     canva_graphique.configure(width = new_img.width(), height = new_img.height())
     canva_graphique.create_image(new_img.width()/2, new_img.height()/2, image = new_img)
     canva_graphique.image = new_img
