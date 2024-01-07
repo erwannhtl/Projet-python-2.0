@@ -1,0 +1,27 @@
+
+# Projet
+
+[Choix de cocktail optimal en fonction de données nutritionnelles](https://github.com/erwannhtl/Projet-python-2.0.git)
+
+# Étudiants
+
+- Juliette SCHNEIDER: juliette.schneider@ensae.fr
+- Alexia DUCLERT: alexia.duclert@ensae.fr
+- Erwann HOTELLIER: erwann.hotellier@ensae.fr
+
+# Examinateur
+
+Daniel Marin: dmarin@open-dc.com
+
+# Commentaires Examinateur
+
+| Thème            | Points positifs                                                                                                                       | Points à améliorer                                                                                                                                                                                                                                                                                                                                          |
+|------------------|---------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Reproductibilité | - fichier `requirements.txt` avec numéros de versions<br/>- code tourne après légères modif                                           | - package `rapidfuzz`, `openpyxl`, `xlrd`, `pillow`, `matplotlib` manquant<br/>- chemins d'accès aux fichiers non relatifs (ex: `/home/onyxia/work/Projet-python-2.0/main/nettoyage/listebrute.xlsx`)                                                                                                                                                       |
+| Qualité du code  | - écriture de fonctions<br/>- Bonne manipulations pandas<br/>- Code aéré                                                              | - signifier l'ordre des étapes dans le noms de dossier aide à la compréhension<br/>- Concentrer les imports en début de notebook<br/>- Liste des éatpes dans un notebook centralisé aurait rendu l'ensemble plus lisible<br/>- script `selection_cocktail.ipynb`: ne comprends pas l'import initial...<br/>- JAMAIS d'accents dans les noms de variables!!! |
+| Activité GitHub  | - Commits bien distribués entre les membres de l'équipe<br/>- Commentaires de commit clairs et concis                                               |                                                                                                                                                                                                                                                                                                                                                                   |
+| Jeu de données   | - Data scrappée de [1ou2cocktails](https://1ou2cocktails.com/cocktails/)<br/>-  [DRVFinder] (https://multimedia.efsa.europa.eu/drvs/) | - Pas de code dans le fichier `webscrapping.ipynb`                                                                                                                                                                                                                                                                                                          |
+| Nettoyage        | - utilisation d'expressions régulières, fonctions de traitement de chaines et NLP                                                     |                                                                                                                                                                                                                                                                                                                                                             |
+| Visualisation    | - Matplotlib<br/>- Tkinter<br/>- INterface fonctionne après quelques ajustements de chemins                                           | - appel de `selection_cocktail` ne fonctionne pas ==> import des librairies en début de code                                                                                                                                                                                                                                                                |
+| Modélisation     | - NLP                                                                                                                                 | - le module `création_graphiques.ipynb` ne fonctionne pas: problème dans le chemins et noms de fonctions (`noms_cocktails_au_hasard` pour `obtenir_4_cocktails_au_hasard`)                                                                                                                                                                                                                 |
+| Notebook         | - Organisation claire<br/>- Bonne qualité de rédaction                                                                                |                                                                                                                                                                                                                                                                                                                                                             |
